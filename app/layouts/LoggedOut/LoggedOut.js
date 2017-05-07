@@ -6,7 +6,7 @@ import {
   Text,
   StyleSheet
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import GoogleSignIn from 'react-native-google-sign-in';
 
@@ -15,29 +15,36 @@ const logo = require('../../images/logo.png');
 class LoggedOut extends Component {
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 1, backgroundColor: 'powderblue' }}>
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <View style={{ flex: 1 }}>
 
-          <Image
+          <Icon
+            style={styles.icon}
+            size={200}
+            color='rgba(0,0,0,0.3)'
+            name='book-open-page-variant' />
+
+          {/*<Image
             style={styles.logo}
-            source={logo} />
+            source={logo} />*/}
 
         </View>
 
-        <View style={{ flex: 3, flexDirection: 'column',
-            justifyContent: 'center', alignItems: 'center' ,
-            backgroundColor: 'skyblue' }}>
+        <View style={{
+          flex: 3, flexDirection: 'column',
+          justifyContent: 'center', alignItems: 'center'
+        }}>
 
           <Icon.Button style={styles.btnLogin}
-            name='google' backgroundColor='#ffffff' onPress={googleAuth} color='rgba(0,0,0,0.54)'>
-            Sign in with Google
+            name='google' backgroundColor='#dd4a48' onPress={googleAuth} color='white'>
+            <Text style={styles.btnText}>Sign in with Google</Text>
           </Icon.Button>
 
           <View style={styles.viewPadding} />
 
           <Icon.Button style={styles.btnLogin}
-            name='facebook' backgroundColor='#3b5998' onPress={facebookAuth}>
-            Login with Facebook
+            name='facebook' backgroundColor='#3a5899' onPress={facebookAuth}>
+            <Text style={styles.btnText}>Sign in with Facebook</Text>
           </Icon.Button>
 
         </View>
@@ -47,8 +54,20 @@ class LoggedOut extends Component {
 }
 
 const styles = StyleSheet.create({
+  icon: {
+    alignSelf: 'center'
+  },
   btnLogin: {
-    ///
+    width: 300,
+    height: 50,
+    borderRadius: 2
+  },
+  btnText: {
+    color: 'white',
+    fontFamily:  'Roboto',
+    fontWeight: 'bold',
+    flex: 1,
+    textAlign: 'center'
   },
   viewPadding: {
     height: 20
@@ -67,7 +86,10 @@ async function googleAuth() {
 
     // iOS, Android
     // https://developers.google.com/identity/protocols/googlescopes
-    scopes: ['your', 'requested', 'api', 'scopes'],
+    scopes: [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile'
+    ],
 
     // iOS, Android
     // Whether to request email and basic profile.
@@ -91,7 +113,7 @@ async function googleAuth() {
     // Whether to request server auth code. Make sure to provide `serverClientID`.
     // https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder.html#requestServerAuthCode(java.lang.String, boolean)
     offlineAccess: boolean,
-    
+
     // Android
     // Whether to force code for refresh token.
     // https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder.html#requestServerAuthCode(java.lang.String, boolean)
