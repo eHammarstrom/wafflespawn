@@ -95,41 +95,48 @@ async function googleAuth() {
     // Whether to request email and basic profile.
     // [Default: true]
     // https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a06bf16b507496b126d25ea909d366ba4
-    shouldFetchBasicProfile: boolean,
+    shouldFetchBasicProfile: true,
 
     // iOS
     // https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a486c8df263ca799bea18ebe5430dbdf7
-    language: string,
+    language: 'en-US',
 
     // iOS
     // https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd
-    loginHint: string,
+    loginHint: 'wafflespawn application',
 
     // iOS, Android
     // https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#ae214ed831bb93a06d8d9c3692d5b35f9
-    serverClientID: 'yourServerClientID',
+    serverClientID: '927919696293-16mltlac8fo9a1mn8r20decdncum5377.apps.googleusercontent.com',
+
+    // Don't use Android OAuth-ID!
+    // http://stackoverflow.com/questions/33583326/new-google-sign-in-android
+    // And this
+    // http://stackoverflow.com/questions/33583326/new-google-sign-in-android/41413713#41413713
+    // And this
+    // https://github.com/devfd/react-native-google-signin/issues/22#issuecomment-269894801
 
     // Android
     // Whether to request server auth code. Make sure to provide `serverClientID`.
     // https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder.html#requestServerAuthCode(java.lang.String, boolean)
-    offlineAccess: boolean,
+    offlineAccess: true, // we want to add token to firebase
 
     // Android
     // Whether to force code for refresh token.
     // https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder.html#requestServerAuthCode(java.lang.String, boolean)
-    forceCodeForRefreshToken: boolean,
+    forceCodeForRefreshToken: false,
 
     // iOS
     // https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a211c074872cd542eda53f696c5eef871
-    openIDRealm: string,
+    openIDRealm: 'somethingForLater',
 
     // Android
     // https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder.html#setAccountName(java.lang.String)
-    accountName: 'yourServerAccountName',
+    accountName: null,
 
     // iOS, Android
     // https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a6d85d14588e8bf21a4fcf63e869e3be3
-    hostedDomain: 'yourHostedDomain',
+    hostedDomain: 'gmail.com',
   });
 
   const user = await GoogleSignIn.signInPromise();
