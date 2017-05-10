@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "432153624336-edm165ph6k04dlrs1h0h1crr1qimnctg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wafflespawn.android",
+            "certificate_hash": "fef96106ab05babaf642844381ef7986ecb7b949"
+          }
+        },
+        {
           "client_id": "432153624336-bo2b7cm9nj9cq41d38qmetq76dc3glfi.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "432153624336-bo2b7cm9nj9cq41d38qmetq76dc3glfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
