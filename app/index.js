@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StackNavigator } from 'react-navigation';
 import * as firebase from 'firebase';
 
 import LoggedOut from './layouts/LoggedOut';
@@ -14,19 +15,8 @@ const config = {
 
 firebase.initializeApp(config);
 
-class App extends Component {
-  render() {
-    /*
-    if (isConnected && loggedIn)
-        return LoggedIn;
-    else if (isConnected)
-        return LoggedOut;
-    else
-        return NoConnection;
-    */
-
-    return <LoggedOut />;
-  }
-}
+const App = StackNavigator({
+  LoggedOut: { screen: LoggedOut }
+});
 
 export default App;

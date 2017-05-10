@@ -4,15 +4,20 @@ import {
   Image,
   Button,
   Text,
-  StyleSheet
+  StyleSheet,
+  AsyncStorage
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import GoogleSignIn from 'react-native-google-sign-in';
+import * as firebase from 'firebase';
 
 const logo = require('../../images/logo.png');
 
 class LoggedOut extends Component {
+  static navigationOptions = {
+    title: 'Welcome to Wafflespawn'
+  };
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -23,10 +28,6 @@ class LoggedOut extends Component {
             size={200}
             color='rgba(0,0,0,0.3)'
             name='book-open-page-variant' />
-
-          {/*<Image
-            style={styles.logo}
-            source={logo} />*/}
 
         </View>
 
@@ -107,7 +108,8 @@ async function googleAuth() {
 
     // iOS, Android
     // https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#ae214ed831bb93a06d8d9c3692d5b35f9
-    serverClientID: '927919696293-16mltlac8fo9a1mn8r20decdncum5377.apps.googleusercontent.com',
+    // serverClientID: '927919696293-16mltlac8fo9a1mn8r20decdncum5377.apps.googleusercontent.com', // works but wrong 'project-id'
+    serverClientID: '432153624336-bo2b7cm9nj9cq41d38qmetq76dc3glfi.apps.googleusercontent.com',
 
     // Don't use Android OAuth-ID!
     // http://stackoverflow.com/questions/33583326/new-google-sign-in-android
@@ -139,13 +141,32 @@ async function googleAuth() {
     hostedDomain: 'gmail.com',
   });
 
+  // https://firebase.google.com/docs/auth/web/google-signin
   const user = await GoogleSignIn.signInPromise();
 
-  console.log(user);
+  const credential = 
+    firebase.auth.GoogleAuthProvider.credential(user.idToken);
+
+  firebase.auth().signInWithCredential(credential)
+    .catch(e => console.error(e));
+
+
+  // https://facebook.github.io/react-native/docs/asyncstorage.html
+  AsyncStorage.setItem('defaultUser', JSON.stringify({
+    name: user.givenName,
+    surname: user.familyName,
+    email: user.email,
+    tokenType: 'google',
+    token: user.idToken
+  }));
+
+  console.log('success');
 }
 
 async function facebookAuth() {
   ///
+
+  // https://firebase.google.com/docs/auth/web/facebook-login
 }
 
 export default LoggedOut;
