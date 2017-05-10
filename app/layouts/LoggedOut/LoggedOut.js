@@ -110,6 +110,7 @@ async function googleAuth() {
     // https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#ae214ed831bb93a06d8d9c3692d5b35f9
     // serverClientID: '927919696293-16mltlac8fo9a1mn8r20decdncum5377.apps.googleusercontent.com', // works but wrong 'project-id'
     serverClientID: '432153624336-bo2b7cm9nj9cq41d38qmetq76dc3glfi.apps.googleusercontent.com',
+    webClientId: '432153624336-bo2b7cm9nj9cq41d38qmetq76dc3glfi.apps.googleusercontent.com',
 
     // Don't use Android OAuth-ID!
     // http://stackoverflow.com/questions/33583326/new-google-sign-in-android
@@ -121,7 +122,7 @@ async function googleAuth() {
     // Android
     // Whether to request server auth code. Make sure to provide `serverClientID`.
     // https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder.html#requestServerAuthCode(java.lang.String, boolean)
-    offlineAccess: true, // we want to add token to firebase
+    offlineAccess: false, // we want to add token to firebase
 
     // Android
     // Whether to force code for refresh token.
