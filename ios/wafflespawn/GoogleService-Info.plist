@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>432153624336-nqbkguj9v4j2geiqhvh74bjdqh0h5jhh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.432153624336-nqbkguj9v4j2geiqhvh74bjdqh0h5jhh</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDVeJR2Ub9Wu62YX3LjIP0DC8FkUWMgquI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>432153624336</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.wafflespawn</string>
+	<key>PROJECT_ID</key>
+	<string>wafflespawn-deead</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wafflespawn-deead.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:432153624336:ios:f6f1b3a8c4301996</string>
+	<key>DATABASE_URL</key>
+	<string>https://wafflespawn-deead.firebaseio.com</string>
+</dict>
+</plist>
