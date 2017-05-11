@@ -5,7 +5,8 @@ import {
   Button,
   Text,
   StyleSheet,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import GoogleSignIn from 'react-native-google-sign-in';
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: 'white',
-    fontFamily:  'Roboto',
+    fontFamily:  (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
     fontWeight: 'bold',
     flex: 1,
     textAlign: 'center'
@@ -164,7 +165,7 @@ async function googleAuth() {
   // https://firebase.google.com/docs/auth/web/google-signin
   const user = await GoogleSignIn.signInPromise();
 
-  const credential = 
+  const credential =
     firebase.auth.GoogleAuthProvider.credential(user.idToken);
 
   firebase.auth().signInWithCredential(credential)
