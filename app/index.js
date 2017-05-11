@@ -3,6 +3,7 @@ import { StackNavigator } from 'react-navigation';
 import * as firebase from 'firebase';
 
 import LoggedOut from './layouts/LoggedOut';
+import Home from './layouts/Home';
 
 const config = {
   apiKey: "AIzaSyCUguMgijYKBQsdg842ojuk1OLXGe2wTkI",
@@ -16,7 +17,8 @@ const config = {
 firebase.initializeApp(config);
 
 const App = StackNavigator({
-  LoggedOut: { screen: LoggedOut }
+  LoggedOut: { screen: LoggedOut },
+  Home: { screen: Home }
 });
 
 export default App;

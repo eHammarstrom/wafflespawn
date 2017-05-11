@@ -10,8 +10,11 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import GoogleSignIn from 'react-native-google-sign-in';
 import * as firebase from 'firebase';
+import { NavigationActions } from 'react-navigation';
 
 const logo = require('../../images/logo.png');
+
+const STORAGE_EMAIL = 'userEmail';
 
 class LoggedOut extends Component {
   static navigationOptions = {
@@ -19,6 +22,22 @@ class LoggedOut extends Component {
   };
 
   render() {
+    let resetToHome = (res) => {
+      return NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Home', params: {email: res}})
+        ]
+      });
+    };
+
+    AsyncStorage.getItem(STORAGE_EMAIL).then(res => {
+      if (res)
+        this.props.navigation.dispatch(resetToHome(res));
+    });
+
+    console.log(this.props.navigation);
+
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
         <View style={{ flex: 1 }}>
@@ -153,13 +172,7 @@ async function googleAuth() {
 
 
   // https://facebook.github.io/react-native/docs/asyncstorage.html
-  AsyncStorage.setItem('defaultUser', JSON.stringify({
-    name: user.givenName,
-    surname: user.familyName,
-    email: user.email,
-    tokenType: 'google',
-    token: user.idToken
-  }));
+  AsyncStorage.setItem(STORAGE_EMAIL, user.email);
 
   console.log('success');
 }
