@@ -11,11 +11,13 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import GoogleSignIn from 'react-native-google-sign-in';
 import * as firebase from 'firebase';
-import { NavigationActions } from 'react-navigation';
+
+const database = require('./../../database');
+const navigation = require('./../../navigation');
 
 const logo = require('../../images/logo.png');
 
-const STORAGE_EMAIL = 'userEmail';
+const STORAGE_USERDATA = 'user-data';
 
 class LoggedOut extends Component {
   static navigationOptions = {
@@ -23,21 +25,19 @@ class LoggedOut extends Component {
   };
 
   render() {
-    let resetToHome = (res) => {
-      return NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: 'Home', params: {email: res}})
-        ]
-      });
-    };
+    AsyncStorage.getItem(STORAGE_USERDATA).then(user => {
+      if (user) {
+        this.user = user;
 
-    AsyncStorage.getItem(STORAGE_EMAIL).then(res => {
-      if (res)
-        this.props.navigation.dispatch(resetToHome(res));
+        console.log('render auth');
+
+        database.userAuth(user.idToken)
+          .then(() => {
+            this.props.navigation.dispatch(
+              navigation.resetToHome(this.user));
+          }).catch(err => console.error('database: ' + err));
+      }
     });
-
-    console.log(this.props.navigation);
 
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -163,19 +163,24 @@ async function googleAuth() {
   });
 
   // https://firebase.google.com/docs/auth/web/google-signin
-  const user = await GoogleSignIn.signInPromise();
+  const gUser = await GoogleSignIn.signInPromise();
 
-  const credential =
-    firebase.auth.GoogleAuthProvider.credential(user.idToken);
+  console.log('button auth');
 
-  firebase.auth().signInWithCredential(credential)
-    .catch(e => console.error(e));
-
+  database.userAuth(gUser.idToken)
+    .then(() => {
+      AsyncStorage.setItem(STORAGE_USERDATA, {
+        email: gUser.email,
+        givenName: gUser.givenName,
+        familyName: gUser.familyName,
+        idToken: gUser.idToken,
+        photoUrlTiny: gUser.photoUrlTiny
+      });
+    })
+    .catch(err => console.error('database: ' + err));
 
   // https://facebook.github.io/react-native/docs/asyncstorage.html
-  AsyncStorage.setItem(STORAGE_EMAIL, user.email);
-
-  console.log('success');
+  return 'Google auth button';
 }
 
 async function facebookAuth() {
