@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 import * as firebase from 'firebase';
 
-import LoggedOut from './layouts/LoggedOut';
+import Login from './layouts/Login';
 import Home from './layouts/Home';
 
 const config = {
@@ -17,7 +17,7 @@ const config = {
 firebase.initializeApp(config);
 
 const App = StackNavigator({
-  LoggedOut: { screen: LoggedOut },
+  Login: { screen: Login },
   Home: { screen: Home }
 });
 

@@ -23,7 +23,7 @@ class Home extends Component {
         </Text>
 
         <Text style={styles.textName}>
-          {state.params.email}
+          {state.params.user.displayName}
         </Text>
 
       </View>
@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     fontSize: 28
   },
   textName: {
-    fontSize: 16
+    fontSize: 20,
+    fontStyle: 'italic'
   }
 });
 

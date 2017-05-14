@@ -1,12 +1,21 @@
 import * as firebase from 'firebase';
 
-let userAuth = (idToken) => {
-  const credential =
-    firebase.auth.GoogleAuthProvider.credential(idToken);
+let registerUser = (idToken, accessToken) => {
+  console.log('database: preparing credentials');
 
-  return firebase.auth().signInWithCredential(credential);
+  const credential =
+    firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
+
+  console.log('database: authenticating credentials');
+
+  return firebase.auth().signInWithCredential(credential)
+    .then(val => val)
+    .catch(e => {
+      console.error('database: ' + e);
+      throw e;
+    });
 }
 
 module.exports = {
-  userAuth: userAuth
+  registerUser: registerUser
 }
