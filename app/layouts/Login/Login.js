@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import {
   View,
-  Image,
-  Button,
   Text,
   StyleSheet,
-  AsyncStorage,
-  Platform,
-  ActivityIndicator
+  Platform
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import GoogleSignIn from 'react-native-google-sign-in';
