@@ -1,15 +1,15 @@
 import { NavigationActions } from 'react-navigation';
 
 module.exports = {
-  resetToHome: (user) => {
+  initiateToMainApp: () => {
     return NavigationActions.reset({
       index: 0,
       actions: [
         NavigationActions.navigate({
-          routeName: 'Home',
-          params: { user: user }
+          routeName: 'MainApp',
+          action: NavigationActions.navigate({ routeName: 'Home' })
         })
       ]
     });
-  },
+  }
 }

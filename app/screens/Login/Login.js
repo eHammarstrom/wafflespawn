@@ -26,8 +26,10 @@ class Login extends Component {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log(user);
+
         this.props.navigation.dispatch(
-          navigation.resetToHome(user));
+          navigation.initiateToMainApp());
       } else {
         this.setState({ isLoading: false });
       }
@@ -35,7 +37,8 @@ class Login extends Component {
   }
 
   static navigationOptions = {
-    title: 'Welcome to Wafflespawn'
+    title: 'Welcome to Wafflespawn',
+    tabBarVisible: false
   };
 
   render() {
@@ -147,7 +150,7 @@ async function googleAuth() {
     let user = await database.registerUser(gUser.idToken, gUser.accessToken)
 
     this.props.navigation.dispatch(
-      navigation.resetToHome(user));
+      navigation.initiateToMainApp());
   } catch (e) {
     console.error('googleAuthBtn: ' + e.toString());
     alert('Authentication failed,\nplease try again.');
@@ -156,8 +159,6 @@ async function googleAuth() {
 }
 
 async function facebookAuth() {
-  ///
-
   // https://firebase.google.com/docs/auth/web/facebook-login
 }
 

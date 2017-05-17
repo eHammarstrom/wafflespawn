@@ -4,17 +4,19 @@ import {
   Text,
   StyleSheet
 } from 'react-native';
+import * as firebase from 'firebase';
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { user: firebase.auth().currentUser };
+  }
+
   static navigationOptions = {
     title: 'Home'
   };
 
   render() {
-    const {state} = this.props.navigation;
-
-    console.log(state)
-
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
 
@@ -23,7 +25,7 @@ class Home extends Component {
         </Text>
 
         <Text style={styles.textName}>
-          {state.params.user.displayName}
+          {this.state.user.displayName}
         </Text>
 
       </View>

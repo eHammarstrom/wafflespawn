@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { StackNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator } from 'react-navigation';
 import * as firebase from 'firebase';
 
-import Login from './layouts/Login';
-import Home from './layouts/Home';
+import Login from './screens/Login';
+
+import Home from './screens/Home';
+import Search from './screens/Search';
 
 const config = {
   apiKey: "AIzaSyCUguMgijYKBQsdg842ojuk1OLXGe2wTkI",
@@ -16,9 +18,21 @@ const config = {
 
 firebase.initializeApp(config);
 
+const MainApp = TabNavigator({
+  Home: { screen: Home },
+  Search: { screen: Search }
+}, {
+  initialRouteName: 'Home',
+  tabBarOptions: {
+    activeTintColor: '#AEEEEE'
+  },
+  tabBarPosition: 'bottom',
+  lazy: true
+});
+
 const App = StackNavigator({
   Login: { screen: Login },
-  Home: { screen: Home }
+  MainApp: { screen: MainApp }
 });
 
 export default App;
