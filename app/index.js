@@ -10,6 +10,8 @@ import Search from './screens/Search';
 import Stats from './screens/Stats';
 import Library from './screens/Library';
 
+import * as globalStyle from './style';
+
 const config = {
   apiKey: "AIzaSyCUguMgijYKBQsdg842ojuk1OLXGe2wTkI",
   authDomain: "wafflespawn-deead.firebaseapp.com",
@@ -30,11 +32,19 @@ const MainApp = TabNavigator({
 }, {
   initialRouteName: 'Home',
   tabBarOptions: {
+    inactiveTintColor: globalStyle.palette.PrimaryText,
+    pressColor: globalStyle.palette.Accent,
     showIcon: true,
     showLabel: true,
+    indicatorStyle: {
+      backgroundColor: globalStyle.palette.Accent
+    },
     labelStyle: {
       fontSize: 9,
       margin: 0
+    },
+    style: {
+      backgroundColor: globalStyle.palette.PrimaryDefault
     }
   },
   tabBarPosition: 'bottom',
