@@ -5,7 +5,10 @@ import * as firebase from 'firebase';
 import Login from './screens/Login';
 
 import Home from './screens/Home';
+import Browse from './screens/Browse';
 import Search from './screens/Search';
+import Stats from './screens/Stats';
+import Library from './screens/Library';
 
 const config = {
   apiKey: "AIzaSyCUguMgijYKBQsdg842ojuk1OLXGe2wTkI",
@@ -20,11 +23,19 @@ firebase.initializeApp(config);
 
 const MainApp = TabNavigator({
   Home: { screen: Home },
-  Search: { screen: Search }
+  Browse: { screen: Browse },
+  Search: { screen: Search },
+  Stats: { screen: Stats },
+  Library: { screen: Library }
 }, {
   initialRouteName: 'Home',
   tabBarOptions: {
-    activeTintColor: '#AEEEEE'
+    showIcon: true,
+    showLabel: true,
+    labelStyle: {
+      fontSize: 9,
+      margin: 0
+    }
   },
   tabBarPosition: 'bottom',
   lazy: true

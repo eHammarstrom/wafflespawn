@@ -7,26 +7,26 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const globalStyle = require('./../../style');
 
-class Search extends Component {
+class Library extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   static navigationOptions = {
-    title: 'Search',
+    title: 'Library',
     tabBarIcon: ({ tintColor }) => (
       <Icon
         style={globalStyle.icons.tabBarIcons}
-        name='ios-search' />
+        name='ios-book' />
     )
   };
 
   render() {
     return(
-      <Text>This is the search tab</Text>
+      <Text>This is the library tab</Text>
     );
   }
 }
 
-export default Search;
+export default Library;

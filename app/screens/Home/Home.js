@@ -5,6 +5,9 @@ import {
   StyleSheet
 } from 'react-native';
 import * as firebase from 'firebase';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+const globalStyle = require('./../../style');
 
 class Home extends Component {
   constructor(props) {
@@ -13,7 +16,12 @@ class Home extends Component {
   }
 
   static navigationOptions = {
-    title: 'Home'
+    title: 'Home',
+    tabBarIcon: ({ tintColor }) => (
+      <Icon
+        style={globalStyle.icons.tabBarIcons}
+        name='ios-home' />
+    )
   };
 
   render() {
