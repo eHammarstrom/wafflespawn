@@ -4,12 +4,14 @@ import {
   StyleSheet
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-const globalStyle = require('./../../style');
+import * as utils from './../../utilities';
+import * as globalStyle from './../../style';
 
 class Stats extends Component {
   constructor(props) {
     super(props);
+    utils.throwLoginIfNotAuthed(this.props.navigation);
+
     this.state = {};
   }
 

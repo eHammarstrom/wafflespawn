@@ -6,12 +6,14 @@ import {
 } from 'react-native';
 import * as firebase from 'firebase';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-const globalStyle = require('./../../style');
+import * as utils from './../../utilities';
+import * as globalStyle from './../../style';
 
 class Home extends Component {
   constructor(props) {
     super(props);
+    utils.throwLoginIfNotAuthed(this.props.navigation);
+
     this.state = { user: firebase.auth().currentUser };
   }
 
@@ -33,7 +35,7 @@ class Home extends Component {
         </Text>
 
         <Text style={styles.textName}>
-          {this.state.user.displayName}
+          {(this.state.user) ? this.state.user.displayName : 'Anonymous'}
         </Text>
 
       </View>
