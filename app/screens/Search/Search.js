@@ -14,7 +14,8 @@ import * as globalStyle from './../../style';
 
 const styles = StyleSheet.create({
   headerSearchButton: {
-    alignSelf: 'center'
+    alignSelf: 'center',
+    backgroundColor: 'rgba(0,0,0,0)'
   },
   headerSearchButtonIcon: {
     fontSize: 26,
@@ -57,6 +58,7 @@ class Search extends Component {
         iconStyle={styles.headerSearchButtonIcon}
         color={globalStyle.palette.PrimaryText}
         backgroundColor={globalStyle.palette.PrimaryLight}
+        underlayColor={globalStyle.palette.Accent}
         name='ios-search'>
         Search
         </Icon.Button>
@@ -105,6 +107,12 @@ class Search extends Component {
 
     let _searchBar = (
       <SearchBar
+        backgroundColor={globalStyle.palette.PrimaryDefault}
+        iconColor={globalStyle.palette.PrimaryLight}
+        textColor={globalStyle.palette.PrimaryText}
+        selectionColor={globalStyle.palette.Accent}
+        placeholder='Title, Author, ISBN'
+
         ref={ref => this.searchBar = ref}
         onBack={() => _nav.dispatch(nav.setParams({ showSearch: false }, 'Search'))}
         data={[1, 2, 3]}
