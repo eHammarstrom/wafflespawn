@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Keyboard
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -50,6 +51,16 @@ class Search extends Component {
         }, 'Search'));
   }
 
+  componentDidMount() {
+    Keyboard.addListener('keyboardDidHide', () => {
+      let params = this.props.navigation.state.params;
+
+      if (params && params.showSearch) {
+        // show tab bar again
+      }
+    });
+  }
+
   searchButton(onClick) {
     return (
       <Icon.Button
@@ -93,6 +104,7 @@ class Search extends Component {
 
     if (params && params.showSearch) { // if we're showing search, remove header
       navOptions['header'] = null;
+      navOptions['tabBarVisible'] = false;
     }
 
     return navOptions;

@@ -31,6 +31,7 @@ const MainApp = TabNavigator({
   Library: { screen: Library }
 }, {
   initialRouteName: 'Home',
+  swipeEnabled: false,
   tabBarOptions: {
     inactiveTintColor: globalStyle.palette.PrimaryText,
     pressColor: globalStyle.palette.Accent,
