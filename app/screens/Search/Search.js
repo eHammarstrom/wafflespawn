@@ -38,8 +38,6 @@ class Search extends Component {
   constructor(props) {
     super(props);
     utils.throwLoginIfNotAuthed(this.props.navigation);
-
-    this.state = { showSearch: false };
   }
 
   componentWillMount() {
@@ -47,17 +45,20 @@ class Search extends Component {
       nav.setParams(
         {
           searchButton: this.searchButton,
-          showSearch: false
+          showSearch: false,
+          showTabBar: true
         }, 'Search'));
   }
 
   componentDidMount() {
     Keyboard.addListener('keyboardDidHide', () => {
-      let params = this.props.navigation.state.params;
+      this.props.navigation.dispatch(
+        nav.setParams({ showTabBar: true }, 'Search'));
+    });
 
-      if (params && params.showSearch) {
-        // show tab bar again
-      }
+    Keyboard.addListener('keyboardDidShow', () => {
+      this.props.navigation.dispatch(
+        nav.setParams({ showTabBar: false }, 'Search'));
     });
   }
 
@@ -82,7 +83,8 @@ class Search extends Component {
 
     if (params && !params.showSearch) { // if not showing search, render search button
       _renderHeaderTitle = navigation.state.params.searchButton(
-        () => navigation.dispatch(nav.setParams({ showSearch: true }, 'Search')));
+        () => navigation.dispatch(
+          nav.setParams({ showSearch: true, showTabBar: false }, 'Search')));
     }
 
     let navOptions = {
@@ -102,10 +104,11 @@ class Search extends Component {
       headerStyle: styles.header
     };
 
-    if (params && params.showSearch) { // if we're showing search, remove header
+    if (params && params.showSearch) // if we're showing search, remove header
       navOptions['header'] = null;
+
+    if (params && !params.showTabBar) // hide tab bar
       navOptions['tabBarVisible'] = false;
-    }
 
     return navOptions;
   }
@@ -126,7 +129,8 @@ class Search extends Component {
         placeholder='Title, Author, ISBN'
 
         ref={ref => this.searchBar = ref}
-        onBack={() => _nav.dispatch(nav.setParams({ showSearch: false }, 'Search'))}
+        onBack={() => _nav.dispatch(
+          nav.setParams({ showSearch: false, showTabBar: true }, 'Search'))}
         data={[1, 2, 3]}
         handleResults={this.resultHandler}
         showOnLoad />
