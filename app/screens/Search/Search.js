@@ -41,18 +41,10 @@ class Search extends Component {
     super(props);
     utils.throwLoginIfNotAuthed(this.props.navigation);
 
-    this.state = { bookSearchList: [] }
+    this.state = { bookSearchList: [] };
   }
 
-  componentWillMount() {
-    this.props.navigation.dispatch(
-      nav.setParams(
-        {
-          searchButton: this.searchButton,
-          showSearch: false,
-          showTabBar: true
-        }, 'Search'));
-  }
+  componentWillMount() { }
 
   componentDidMount() {
     Keyboard.addListener('keyboardDidHide', () => {
@@ -64,6 +56,14 @@ class Search extends Component {
       this.props.navigation.dispatch(
         nav.setParams({ showTabBar: false }, 'Search'));
     });
+
+    this.props.navigation.dispatch(
+      nav.setParams(
+        {
+          searchButton: this.searchButton,
+          showSearch: false,
+          showTabBar: true
+        }, 'Search'));
   }
 
   searchButton(onClick) {
@@ -82,11 +82,11 @@ class Search extends Component {
   };
 
   static navigationOptions = ({ navigation }) => {
-    let params = navigation.state.params;
+    let _params = navigation.state.params;
     let _renderHeaderTitle = null;
 
-    if (params && !params.showSearch) { // if not showing search, render search button
-      _renderHeaderTitle = navigation.state.params.searchButton(
+    if (_params && !_params.showSearch) { // if not showing search, render search button
+      _renderHeaderTitle = _params.searchButton(
         () => navigation.dispatch(
           nav.setParams({ showSearch: true, showTabBar: false }, 'Search')));
     }
@@ -108,22 +108,22 @@ class Search extends Component {
       headerStyle: styles.header
     };
 
-    if (params && params.showSearch) // if we're showing search, remove header
+    if (_params && _params.showSearch) // if we're showing search, remove header
       navOptions['header'] = null;
 
-    if (params && !params.showTabBar) // hide tab bar
+    if (_params && !_params.showTabBar) // hide tab bar
       navOptions['tabBarVisible'] = false;
 
     return navOptions;
   }
 
   booksSearch() {
-    const baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
+    const _baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
     let _searchInput = this.searchInput;
 
     console.log('search query:', _searchInput);
 
-    fetch(baseUrl + _searchInput)
+    fetch(_baseUrl + _searchInput)
       .then(res =>
         res.json().then(data => this.setState({ bookSearchList: data.items })))
       .catch(error => console.error(error));
@@ -136,46 +136,36 @@ class Search extends Component {
 
     console.log(this.state.bookSearchList);
 
-    let _initializeSearchBar = ( // initialize search bar
-      <SearchBar
-        backgroundColor={globalStyle.palette.PrimaryDefault}
-        iconColor={globalStyle.palette.PrimaryLight}
-        textColor={globalStyle.palette.PrimaryText}
-        selectionColor={globalStyle.palette.Accent}
-        placeholder='Title, Author, ISBN'
-
-        onSubmitEditing={this.booksSearch.bind(this)}
-        handleChangeText={this.setSearchInput.bind(this)}
-        onBack={() => _nav.dispatch(
-          nav.setParams({ showSearch: false, showTabBar: true }, 'Search'))}
-
-        ref={ref => this.searchBar = ref}
-        showOnLoad />
-    );
-
-    let _searchBar = null;
-
-    if (_nav.state.params) { // if params is not null
-      let _showSearch = _nav.state.params.showSearch; // and showSearch is true
-      _searchBar = (_showSearch) ? _initializeSearchBar : null; // render searchBar
-    }
-
-    let _searchList = null;
-
-    if (this.state.bookSearchList.length > 0) { // if we have a book search, render it
-      _searchList = (
-        <ListView
-          dataSource={
-            new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-              .cloneWithRows(this.state.bookSearchList)}
-          renderRow={rowData => <SearchListItem data={rowData} />} />
-      );
+    /* introduces impurity to the render function... what, where, when? */
+    if (this.searchBar) {
+      if (_nav.state.params && _nav.state.params.showSearch) {
+        this.searchBar.show();
+      } else {
+        this.searchBar.hide();
+      }
     }
 
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        {_searchBar}
-        {_searchList}
+        <SearchBar
+          backgroundColor={globalStyle.palette.PrimaryDefault}
+          iconColor={globalStyle.palette.PrimaryLight}
+          textColor={globalStyle.palette.PrimaryText}
+          selectionColor={globalStyle.palette.Accent}
+          placeholder='Title, Author, ISBN'
+
+          onSubmitEditing={this.booksSearch.bind(this)}
+          handleChangeText={this.setSearchInput.bind(this)}
+          onBack={() => _nav.dispatch(
+            nav.setParams({ showSearch: false, showTabBar: true }, 'Search'))}
+          ref={ref => this.searchBar = ref } />
+
+        <ListView
+          enableEmptySections={true}
+          dataSource={
+            new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+              .cloneWithRows(this.state.bookSearchList)}
+          renderRow={rowData => <SearchListItem data={rowData} />} />
       </View>
     );
   }
