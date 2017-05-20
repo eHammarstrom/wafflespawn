@@ -20,9 +20,11 @@ class SearchListItem extends Component {
   }
 
   render() {
+    let _bookId = this.props.data.id;
     let _image = null;
     let _title = null;
     let _authors = null;
+    let _rating = null;
 
     let _imageData = this.props.data.volumeInfo.imageLinks;
     if (_imageData) {
@@ -58,6 +60,36 @@ class SearchListItem extends Component {
       );
     }
 
+    let _ratingData = {
+      averageRating: this.props.data.volumeInfo.averageRating,
+      ratingsCount: this.props.data.volumeInfo.ratingsCount
+    };
+    if (_ratingData.averageRating && _ratingData.ratingsCount) {
+      let _points = _ratingData.averageRating;
+      let _stars = [];
+
+      while (_points >= 1) {
+        _stars.push(
+          <Icon name='ios-star' style={styles.star} />
+        );
+
+        _points -= 1;
+      }
+
+      _points -= 1;
+      if (_points >= -0.5 && _points < 0) {
+        _stars.push(
+          <Icon name='ios-star-half' style={styles.star} />
+        );
+      }
+
+      _rating = (
+        <View style={styles.stars}>
+          {_stars.map(c => c)}
+        </View>
+      );
+    }
+
     return(
       <View style={styles.row}>
         <View style={styles.left}>
@@ -66,6 +98,7 @@ class SearchListItem extends Component {
         <View style={styles.middle}>
           {_title}
           {_authors}
+          {_rating}
         </View>
         <View style={styles.right}>
           <TouchableHighlight
@@ -113,9 +146,16 @@ const styles = StyleSheet.create({
   },
   author: {
     margin: 2,
-    paddingLeft: 6,
+    paddingLeft: 2,
     fontStyle: 'italic',
     fontSize: 12
+  },
+  stars: {
+    flexDirection: 'row'
+  },
+  star: {
+    paddingLeft: 2,
+    color: globalStyle.palette.Accent
   },
   description: { },
   right: {
