@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   Keyboard,
-  ListView
+  ListView,
+  Platform
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -165,6 +166,8 @@ class Search extends Component {
 
         <ListView
           enableEmptySections={true}
+          style={{ marginTop: (Platform.OS === 'ios') ? 52 : 62 }}
+            // margin grabbed from react-native searchBar height
           dataSource={
             new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
               .cloneWithRows(this.state.bookSearchList)}
