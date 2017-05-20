@@ -36,13 +36,10 @@ class SearchListItem extends Component {
     let _titleData = this.props.data.volumeInfo.title;
     if (_titleData) {
       _title = (
-        <Text style={styles.title}>
-          {
-            (_titleData.length > 24) ?
-              this.props.data.volumeInfo.title.slice(0, 24) + '...'
-              :
-              this.props.data.volumeInfo.title
-          }
+        <Text
+          numberOfLines={1}
+          style={styles.title}>
+          {_titleData}
         </Text>
       );
     }
@@ -90,22 +87,29 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     flexDirection: 'row',
-    height: 75
+    height: 75,
+    borderBottomWidth: 1,
+    borderColor: globalStyle.palette.Divider
   },
   left: {
-    width: 75
+    width: 75,
+    justifyContent: 'center'
   },
   thumbnail: {
-    height: 75,
-    width: 75
+    alignSelf: 'center',
+    height: 50,
+    width: 50,
+    borderRadius: 25
   },
   middle: {
-    flex: 2,
+    flex: 2
   },
   title: {
     margin: 2,
+    marginTop: 8,
     paddingLeft: 2,
-    fontSize: 14
+    fontSize: 16,
+    color: globalStyle.palette.DefaultText
   },
   author: {
     margin: 2,
