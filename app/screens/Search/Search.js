@@ -134,6 +134,7 @@ class Search extends Component {
 
   render() {
     let _nav = this.props.navigation;
+    let _listViewMarginFix = null;
 
     console.log(this.state.bookSearchList);
 
@@ -143,6 +144,8 @@ class Search extends Component {
     if (this.searchBar) {
       if (_nav.state.params && _nav.state.params.showSearch) {
         this.searchBar.show();
+        _listViewMarginFix = { marginTop: (Platform.OS === 'ios') ? 52 : 62 };
+            // margin grabbed from react-native searchBar height
       } else {
         this.searchBar.hide();
       }
@@ -166,8 +169,7 @@ class Search extends Component {
 
         <ListView
           enableEmptySections={true}
-          style={{ marginTop: (Platform.OS === 'ios') ? 52 : 62 }}
-            // margin grabbed from react-native searchBar height
+          style={_listViewMarginFix}
           dataSource={
             new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
               .cloneWithRows(this.state.bookSearchList)}
