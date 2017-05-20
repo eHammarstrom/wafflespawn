@@ -3,11 +3,13 @@ import {
   View,
   Text,
   StyleSheet,
-  Keyboard
+  Keyboard,
+  ListView
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SearchBar from 'react-native-searchbar';
+import SearchListItem from './SearchListItem';
 
 import * as nav from './../../navigation';
 import * as utils from './../../utilities';
@@ -38,6 +40,8 @@ class Search extends Component {
   constructor(props) {
     super(props);
     utils.throwLoginIfNotAuthed(this.props.navigation);
+
+    this.state = { bookSearchList: [] }
   }
 
   componentWillMount() {
@@ -113,14 +117,26 @@ class Search extends Component {
     return navOptions;
   }
 
-  resultHandler(results) {
+  booksSearch() {
+    const baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
+    let _searchInput = this.searchInput;
 
+    console.log('search query:', _searchInput);
+
+    fetch(baseUrl + _searchInput)
+      .then(res =>
+        res.json().then(data => this.setState({ bookSearchList: data.items })))
+      .catch(error => console.error(error));
   }
+
+  setSearchInput(input) { this.searchInput = input }
 
   render() {
     let _nav = this.props.navigation;
 
-    let _searchBar = (
+    console.log(this.state.bookSearchList);
+
+    let _initializeSearchBar = ( // initialize search bar
       <SearchBar
         backgroundColor={globalStyle.palette.PrimaryDefault}
         iconColor={globalStyle.palette.PrimaryLight}
@@ -128,25 +144,38 @@ class Search extends Component {
         selectionColor={globalStyle.palette.Accent}
         placeholder='Title, Author, ISBN'
 
-        ref={ref => this.searchBar = ref}
+        onSubmitEditing={this.booksSearch.bind(this)}
+        handleChangeText={this.setSearchInput.bind(this)}
         onBack={() => _nav.dispatch(
           nav.setParams({ showSearch: false, showTabBar: true }, 'Search'))}
-        data={[1, 2, 3]}
-        handleResults={this.resultHandler}
+
+        ref={ref => this.searchBar = ref}
         showOnLoad />
     );
 
-    let _render = null;
+    let _searchBar = null;
 
-    if (_nav.state.params) {
-      let _showSearch = _nav.state.params.showSearch;
+    if (_nav.state.params) { // if params is not null
+      let _showSearch = _nav.state.params.showSearch; // and showSearch is true
+      _searchBar = (_showSearch) ? _initializeSearchBar : null; // render searchBar
+    }
 
-      _render = (_showSearch) ? _searchBar : null;
+    let _searchList = null;
+
+    if (this.state.bookSearchList.length > 0) { // if we have a book search, render it
+      _searchList = (
+        <ListView
+          dataSource={
+            new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+              .cloneWithRows(this.state.bookSearchList)}
+          renderRow={rowData => <SearchListItem data={rowData} />} />
+      );
     }
 
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        {_render}
+        {_searchBar}
+        {_searchList}
       </View>
     );
   }
