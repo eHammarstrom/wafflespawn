@@ -136,7 +136,9 @@ class Search extends Component {
 
     console.log(this.state.bookSearchList);
 
-    /* introduces impurity to the render function... what, where, when? */
+    /* introduces impurity to the render function... what, where, when?
+     * but it works for now, I guess.
+     */
     if (this.searchBar) {
       if (_nav.state.params && _nav.state.params.showSearch) {
         this.searchBar.show();
@@ -153,6 +155,7 @@ class Search extends Component {
           textColor={globalStyle.palette.PrimaryText}
           selectionColor={globalStyle.palette.Accent}
           placeholder='Title, Author, ISBN'
+          animate={false}
 
           onSubmitEditing={this.booksSearch.bind(this)}
           handleChangeText={this.setSearchInput.bind(this)}
