@@ -132,44 +132,49 @@ class Search extends Component {
 
   setSearchInput(input) { this.searchInput = input }
 
+  onBackSearchButton() {
+    this.searchBar.hide();
+
+    this.once = false;
+
+    this.props.navigation.dispatch(
+      nav.setParams({ showSearch: false, showTabBar: true }, 'Search'));
+  }
+
   render() {
     let _nav = this.props.navigation;
-    let _listViewMarginFix = null;
+    let _heightFix = false;
 
-    console.log(this.state.bookSearchList);
+    if (_nav.state.params && _nav.state.params.showSearch)
+      _heightFix = true;
 
-    /* introduces impurity to the render function... what, where, when?
-     * but it works for now, I guess.
-     */
+    /* introduces impurity to the render function ... works for now */
     if (this.searchBar) {
-      if (_nav.state.params && _nav.state.params.showSearch) {
+      if (_nav.state.params && _nav.state.params.showSearch && !this.once) {
+        this.once = true;
         this.searchBar.show();
-        _listViewMarginFix = { marginTop: (Platform.OS === 'ios') ? 52 : 62 };
-            // margin grabbed from react-native searchBar height
-      } else {
-        this.searchBar.hide();
       }
     }
 
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <SearchBar
-          backgroundColor={globalStyle.palette.PrimaryDefault}
-          iconColor={globalStyle.palette.PrimaryLight}
-          textColor={globalStyle.palette.PrimaryText}
-          selectionColor={globalStyle.palette.Accent}
-          placeholder='Title, Author, ISBN'
-          animate={false}
+          <SearchBar
+            backgroundColor={globalStyle.palette.PrimaryDefault}
+            iconColor={globalStyle.palette.PrimaryLight}
+            textColor={globalStyle.palette.PrimaryText}
+            selectionColor={globalStyle.palette.Accent}
+            placeholder='Title, Author, ISBN'
+            animate={false}
 
-          onSubmitEditing={this.booksSearch.bind(this)}
-          handleChangeText={this.setSearchInput.bind(this)}
-          onBack={() => _nav.dispatch(
-            nav.setParams({ showSearch: false, showTabBar: true }, 'Search'))}
-          ref={ref => this.searchBar = ref } />
+            onSubmitEditing={this.booksSearch.bind(this)}
+            handleChangeText={this.setSearchInput.bind(this)}
+            onBack={this.onBackSearchButton.bind(this)}
+            ref={ref => this.searchBar = ref} />
+        
+        {(_heightFix) ? <View style={{ height: (Platform.OS === 'ios') ? 52 : 62}} /> : null}
 
         <ListView
           enableEmptySections={true}
-          style={_listViewMarginFix}
           dataSource={
             new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
               .cloneWithRows(this.state.bookSearchList)}
