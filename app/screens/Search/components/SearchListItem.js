@@ -8,15 +8,11 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import * as globalStyle from './../../style';
+import * as globalStyle from './../../../style';
 
 class SearchListItem extends Component {
   constructor(props) {
     super(props);
-  }
-
-  addBookPress(book) {
-    console.log('i want to add:', book);
   }
 
   render() {
@@ -91,7 +87,7 @@ class SearchListItem extends Component {
     }
 
     return(
-      <View style={styles.row}>
+      <View shouldRasterizeIOS={true} renderToHardwareTextureAndroid={true} style={styles.row}>
         <View style={styles.left}>
           {_image}
         </View>
@@ -102,7 +98,10 @@ class SearchListItem extends Component {
         </View>
         <View style={styles.right}>
           <TouchableHighlight
-            onPress={this.addBookPress}
+            onPress={() => {
+              console.log(this.props.data.volumeInfo.industryIdentifiers);
+              this.props.showPicker(_imageData, this.props.data.volumeInfo.industryIdentifiers);
+            }}
             underlayColor={globalStyle.palette.Accent}
             style={styles.addButton}>
             <Icon

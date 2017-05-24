@@ -10,7 +10,8 @@ import {
 import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SearchBar from 'react-native-searchbar';
-import SearchListItem from './SearchListItem';
+import SearchListItem from './components/SearchListItem';
+import LibraryPicker from './components/LibraryPicker';
 
 import * as nav from './../../navigation';
 import * as utils from './../../utilities';
@@ -42,7 +43,11 @@ class Search extends Component {
     super(props);
     utils.throwLoginIfNotAuthed(this.props.navigation);
 
-    this.state = { bookSearchList: [] };
+    this.state = {
+      bookSearchList: [],
+      showPicker: false,
+      pickerData: null
+    };
   }
 
   componentWillMount() { }
@@ -66,6 +71,19 @@ class Search extends Component {
           showTabBar: true
         }, 'Search'));
   }
+
+  showPicker(image, industryIdentifiers) { // industryIdentifiers = isbn-13 and isbn-10
+    this.setState({
+      showPicker: true,
+      pickerData: {
+        image,
+        industryIdentifiers
+      }
+    });
+    console.log('showing picker!');
+  }
+
+  hidePicker() { this.setState({ showPicker: false, pickerData: null }) }
 
   searchButton(onClick) {
     return (
@@ -120,14 +138,12 @@ class Search extends Component {
 
   booksSearch() {
     const _baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
-    let _searchInput = this.searchInput;
-
-    console.log('search query:', _searchInput);
+    let _searchInput = this.searchInput; // lock search param
 
     fetch(_baseUrl + _searchInput)
       .then(res =>
         res.json().then(data => this.setState({ bookSearchList: data.items })))
-      .catch(error => console.error(error));
+      .catch(error => console.error(error)); // TODO: Handle search error, maybe alert
   }
 
   setSearchInput(input) { this.searchInput = input }
@@ -173,12 +189,21 @@ class Search extends Component {
         
         {(_heightFix) ? <View style={{ height: (Platform.OS === 'ios') ? 52 : 62}} /> : null}
 
+        {(this.state.showPicker) ?
+          <LibraryPicker
+            hidePicker={this.hidePicker.bind(this)}
+            data={this.state.pickerData} /> : null}
+
         <ListView
           enableEmptySections={true}
           dataSource={
             new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
               .cloneWithRows(this.state.bookSearchList)}
-          renderRow={rowData => <SearchListItem data={rowData} />} />
+          renderRow={rowData =>
+            <SearchListItem
+              hidePicker={this.hidePicker.bind(this)}
+              showPicker={this.showPicker.bind(this)}
+              data={rowData} />} />
       </View>
     );
   }
