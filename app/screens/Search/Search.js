@@ -80,7 +80,6 @@ class Search extends Component {
         industryIdentifiers
       }
     });
-    console.log('showing picker!');
   }
 
   hidePicker() { this.setState({ showPicker: false, pickerData: null }) }

@@ -98,10 +98,8 @@ class SearchListItem extends Component {
         </View>
         <View style={styles.right}>
           <TouchableHighlight
-            onPress={() => {
-              console.log(this.props.data.volumeInfo.industryIdentifiers);
-              this.props.showPicker(_imageData, this.props.data.volumeInfo.industryIdentifiers);
-            }}
+            onPress={() =>
+              this.props.showPicker(_imageData, this.props.data.volumeInfo.industryIdentifiers)}
             underlayColor={globalStyle.palette.Accent}
             style={styles.addButton}>
             <Icon

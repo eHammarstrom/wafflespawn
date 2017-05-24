@@ -3,22 +3,32 @@ import {
   StyleSheet,
   TouchableHighlight,
   Image,
-  Text
+  Text,
+  View
 } from 'react-native';
 import Modal from 'react-native-modalbox';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import * as globalStyle from './../../../style';
 
 class LibraryPicker extends Component {
   render() {
-    console.log('picker rendering');
+    let _image = null;
 
-    let _image;
+    let _imageData = this.props.data.image;
+    if (_imageData) {
+      let _source;
 
-    if (this.props.data.image) {
+      if (_imageData.large)
+        _source = _imageData.large;
+      else if (_imageData.thumbnail)
+        _source = _imageData.thumbnail;
+      else if (_imageData.smallThumbnail)
+        _source = _imageData.smallThumbnail;
+
       _image = <Image
         style={styles.thumbnail}
-        source={{ uri: this.props.data.image.smallThumbnail }} />
+        source={{ uri: _source }} />;
     }
 
     return (
@@ -30,15 +40,29 @@ class LibraryPicker extends Component {
         isDisabled={false}
         isOpen={true}
         position={'center'}>
-
-        {_image}
+        
+        <View style={styles.header}>
+          {/*<Icon style={{marginLeft: 35,flex: 1,alignSelf: 'center'}} name='ios-add' size={52} color={globalStyle.palette.Accent} /> */}
+          {/*
+          <Text style={styles.headerTitle}>
+            Add
+          </Text>
+          */}
+          {_image}
+          {/*
+          <Text style={styles.headerTitle}>
+            to
+          </Text>
+          */}
+          {/*<View style={{flex: 1}}></View>*/}
+        </View>
 
         <TouchableHighlight
           style={styles.button}
           underlayColor={globalStyle.palette.Accent}
           onPress={() => console.log('To read')}>
           <Text style={styles.buttonText}>
-            TO READ
+            Add to To Read
           </Text>
         </TouchableHighlight>
 
@@ -47,7 +71,7 @@ class LibraryPicker extends Component {
           underlayColor={globalStyle.palette.Accent}
           onPress={() => console.log('Reading')}>
           <Text style={styles.buttonText}>
-            READING
+            Add to Reading
           </Text>
         </TouchableHighlight>
 
@@ -56,7 +80,7 @@ class LibraryPicker extends Component {
           underlayColor={globalStyle.palette.Accent}
           onPress={() => console.log('Finished')}>
           <Text style={styles.buttonText}>
-            FINISHED
+            Add to Finished
           </Text>
         </TouchableHighlight>
 
@@ -72,13 +96,27 @@ const styles = StyleSheet.create({
     width: 250,
     borderRadius: 0
   },
+  header: {
+    justifyContent: 'center',
+    //flexDirection: 'row',
+    height: 130,
+    backgroundColor: globalStyle.palette.PrimaryDefault
+  },
   thumbnail: {
+    //flex: 1,
     alignSelf: 'center',
-    width: 100,
-    height: 150,
-    marginBottom: 5,
-    marginTop: 5,
-    borderRadius: 2
+    height: 115,
+    width: 75,
+    borderRadius: 1,
+    //marginLeft: 15,
+    //marginRight: 15
+  },
+  headerTitle: {
+    flex: 1,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    color: globalStyle.palette.PrimaryText
   },
   button: {
     justifyContent: 'center',
@@ -86,11 +124,11 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     borderTopWidth: 1,
     borderTopColor: globalStyle.palette.Divider,
-    backgroundColor: globalStyle.palette.PrimaryDefault
+    backgroundColor: globalStyle.palette.PrimaryText
   },
   buttonText: {
     alignSelf: 'center',
-    color: globalStyle.palette.PrimaryText,
+    color: globalStyle.palette.SecondaryText,
     fontSize: 16
   },
   buttonBottom: {
