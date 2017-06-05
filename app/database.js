@@ -29,7 +29,8 @@ let addBookToList = async (bookISBN, list) => {
       .ref(_userRef + '/books')
       .child(list)
       .child('book-' + bookISBN)
-      .set({isbn: bookISBN});
+      .child('isbn') // select specific field to preserve other object fields
+      .set(bookISBN);
   } catch (e) {
     console.error(e);
   }
