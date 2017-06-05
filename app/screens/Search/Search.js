@@ -61,6 +61,7 @@ class Search extends Component {
     Keyboard.addListener('keyboardDidShow', () => {
       this.props.navigation.dispatch(
         nav.setParams({ showTabBar: false }, 'Search'));
+        this.hidePicker();
     });
 
     this.props.navigation.dispatch(
@@ -139,10 +140,41 @@ class Search extends Component {
     const _baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
     let _searchInput = this.searchInput; // lock search param
 
+    this.searchIndex = 0;
+    this.searchIsExhausted = false;
+
     fetch(_baseUrl + _searchInput)
       .then(res =>
         res.json().then(data => this.setState({ bookSearchList: data.items })))
       .catch(error => console.error(error)); // TODO: Handle search error, maybe alert
+  }
+
+  continuedBooksSearch() {
+    //console.log('continuedBooksSearch:', this.searchInput);
+    //console.log('continuedBooksSearch:', this.state.bookSearchList);
+    //console.log('continuedBooksSearch:', this.searchIsExhausted);
+
+    if (!this.searchInput || this.searchIsExhausted) return;
+
+    let _searchInput = this.searchInput;
+
+    this.searchIndex += 1;
+    let _searchIndex = this.searchIndex;
+
+    const _baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
+
+    fetch(_baseUrl + _searchInput + '&startIndex=' + _searchIndex*10)
+      .then(res =>
+        res.json().then(
+          data => {
+            if (!data || !data.items) {
+              this.searchIsExhausted = true;
+              return;
+            }
+
+            this.setState({ bookSearchList: [...this.state.bookSearchList, ...data.items] });
+        }))
+      .catch(error => console.error(error));
   }
 
   setSearchInput(input) { this.searchInput = input }
@@ -194,6 +226,7 @@ class Search extends Component {
             data={this.state.pickerData} /> : null}
 
         <ListView
+          onEndReached={this.continuedBooksSearch.bind(this)}
           enableEmptySections={true}
           dataSource={
             new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
