@@ -9,9 +9,23 @@ import {
 import Modal from 'react-native-modalbox';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import * as database from './../../../database';
 import * as globalStyle from './../../../style';
 
 class LibraryPicker extends Component {
+  addPress(listType) {
+    let _industryId = this.props.data.industryIdentifiers;
+    let _isbn;
+
+    if (_industryId[0]) {
+      _isbn = this.props.data.industryIdentifiers[0].identifier;
+    } else {
+      throw Error('No isbn found on book.');
+    }
+
+    database.addBookToList(_isbn, listType);
+  }
+
   render() {
     let _image = null;
 
@@ -60,7 +74,7 @@ class LibraryPicker extends Component {
         <TouchableHighlight
           style={styles.button}
           underlayColor={globalStyle.palette.Accent}
-          onPress={() => console.log('To read')}>
+          onPress={() => this.addPress(database.bookLists.toRead)}>
           <Text style={styles.buttonText}>
             Add to To Read
           </Text>
@@ -69,7 +83,7 @@ class LibraryPicker extends Component {
         <TouchableHighlight
           style={styles.button}
           underlayColor={globalStyle.palette.Accent}
-          onPress={() => console.log('Reading')}>
+          onPress={() => this.addPress(database.bookLists.reading)}>
           <Text style={styles.buttonText}>
             Add to Reading
           </Text>
@@ -78,7 +92,7 @@ class LibraryPicker extends Component {
         <TouchableHighlight
           style={styles.button}
           underlayColor={globalStyle.palette.Accent}
-          onPress={() => console.log('Finished')}>
+          onPress={() => this.addPress(database.bookLists.finished)}>
           <Text style={styles.buttonText}>
             Add to Finished
           </Text>

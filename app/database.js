@@ -16,6 +16,33 @@ let registerUser = (idToken, accessToken) => {
     });
 }
 
+let addBookToList = async (bookISBN, list) => {
+  if (!firebase.auth().currentUser) return;
+
+  console.log('database.addBookToList, book:', bookISBN);
+  console.log('database.addBookToList, list:', list);
+
+  const _userRef = 'users/' + firebase.auth().currentUser.uid;
+
+  try {
+    await firebase.database()
+      .ref(_userRef + '/books')
+      .child(list)
+      .child('book-' + bookISBN)
+      .set({isbn: bookISBN});
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+let bookLists = {
+  reading: 'reading',
+  toRead: 'to-read',
+  finished: 'finished'
+}
+
 module.exports = {
-  registerUser: registerUser
+  registerUser,
+  addBookToList,
+  bookLists
 }
