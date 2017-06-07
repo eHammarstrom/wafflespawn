@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 
-let registerUser = (idToken, accessToken) => {
+function registerUser(idToken, accessToken) {
   console.log('database: preparing credentials');
 
   const credential =
@@ -16,7 +16,7 @@ let registerUser = (idToken, accessToken) => {
     });
 }
 
-let addBookToList = async (bookISBN, list) => {
+async function addBookToList(bookISBN, list) {
   if (!firebase.auth().currentUser) return;
 
   console.log('database.addBookToList, book:', bookISBN);
