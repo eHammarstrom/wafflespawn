@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { TabNavigator, StackNavigator } from 'react-navigation';
+import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
+import hoist from 'hoist-non-react-statics';
 import * as firebase from 'firebase';
+
+import reducer from './reducers';
 
 import Login from './screens/Login';
 
@@ -23,12 +28,50 @@ const config = {
 
 firebase.initializeApp(config);
 
+/**
+ * DEBUG
+ */
+import devToolsEnhancer from 'remote-redux-devtools'; // dev debug
+  // debugger can be accessed here: http://remotedev.io/local/
+
+const store = createStore(
+  reducer,
+  devToolsEnhancer({
+    name: 'React-Native App - Wafflespawn',
+    realtime: true,
+    suppressConnectErrors: false
+  })
+);
+
+store.subscribe(() => console.log(store.getState())); // state logging
+/**
+ * END DEBUG
+ */
+
+
 const MainApp = TabNavigator({
+  /*
   Home: { screen: Home },
   Browse: { screen: Browse },
   Search: { screen: Search },
   Stats: { screen: Stats },
   Library: { screen: Library }
+  */
+  Home: {
+    screen: hoist(props => <Home {...props} store={store} />, Home)
+  },
+  Browse: {
+    screen: hoist(props => <Browse {...props} store={store} />, Browse)
+  },
+  Search: {
+    screen: hoist(props => <Search {...props} store={store} />, Search)
+  },
+  Stats: {
+    screen: hoist(props => <Stats {...props} store={store} />, Stats)
+  },
+  Library: {
+    screen: hoist(props => <Library {...props} store={store} />, Library)
+  }
 }, {
   initialRouteName: 'Home',
   swipeEnabled: false,
@@ -56,5 +99,11 @@ const App = StackNavigator({
   Login: { screen: Login },
   MainApp: { screen: MainApp }
 });
+
+const ProvidedApp = () => (
+  <Provider store={store}>
+    <App screenProps={store} />
+  </Provider>
+);
 
 export default App;

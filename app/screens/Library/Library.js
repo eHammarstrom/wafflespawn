@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   Text,
-  StyleSheet
+  StyleSheet,
+  View
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as utils from './../../utilities';
@@ -25,10 +27,27 @@ class Library extends Component {
   };
 
   render() {
+    const {books} = this.props;
+
+    let countKeys = (list) => Object.keys(list).length;
+
     return(
-      <Text>This is the library tab</Text>
+      <View>
+        <Text>This is the library tab</Text>
+        <Text>ToRead: {countKeys(books['to-read'])}</Text>
+        <Text>reading: {countKeys(books['reading'])}</Text>
+        <Text>finished: {countKeys(books['finished'])}</Text>
+      </View>
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    books: state.user.books
+  };
+}
+
+Library = connect(mapStateToProps)(Library);
 
 export default Library;
