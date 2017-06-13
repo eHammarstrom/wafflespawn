@@ -74,6 +74,7 @@ class LibraryPicker extends Component {
         <TouchableHighlight
           style={styles.button}
           underlayColor={globalStyle.palette.Accent}
+          onLongPress={null}
           onPress={() => this.addPress(database.bookLists.toRead)}>
           <Text style={styles.buttonText}>
             Add to To Read
@@ -83,6 +84,7 @@ class LibraryPicker extends Component {
         <TouchableHighlight
           style={styles.button}
           underlayColor={globalStyle.palette.Accent}
+          onLongPress={null}
           onPress={() => this.addPress(database.bookLists.reading)}>
           <Text style={styles.buttonText}>
             Add to Reading
@@ -92,6 +94,7 @@ class LibraryPicker extends Component {
         <TouchableHighlight
           style={styles.button}
           underlayColor={globalStyle.palette.Accent}
+          onLongPress={null}
           onPress={() => this.addPress(database.bookLists.finished)}>
           <Text style={styles.buttonText}>
             Add to Finished

@@ -55,7 +55,9 @@ class CategoryItem extends Component {
       reduce(omit(this.props.data, 'key'), n => n + 1, 0);
 
     return (
-      <TouchableHighlight>
+      <TouchableHighlight
+        onLongPress={null} // edit/remove category
+        >
         <View style={styles.row}>
           <Text>{this.props.name}: {numBooks}</Text>
         </View>

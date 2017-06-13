@@ -98,6 +98,7 @@ class SearchListItem extends Component {
         </View>
         <View style={styles.right}>
           <TouchableHighlight
+            onLongPress={null}
             onPress={() =>
               this.props.showPicker(_imageData, this.props.data.volumeInfo.industryIdentifiers)}
             underlayColor={globalStyle.palette.Accent}
