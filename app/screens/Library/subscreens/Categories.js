@@ -20,6 +20,10 @@ class Categories extends Component {
     this.state = {};
   }
 
+  navigate(category) {
+    this.props.navigation.navigate('Books', { category });
+  }
+
   render() {
     const {books} = this.props;
 
@@ -37,7 +41,10 @@ class Categories extends Component {
         style={{ flex: 1, backgroundColor: 'white' }}
         data={bookData}
         renderItem={({ item }) =>
-          <CategoryItem name={item.key} data={item.data} />}
+          <CategoryItem
+            navigate={this.navigate.bind(this)}
+            name={item.key}
+            data={item.data} />}
       />
     );
   }
@@ -57,7 +64,7 @@ class CategoryItem extends Component {
     return (
       <TouchableHighlight
         onLongPress={null} // edit/remove category
-        >
+        onPress={() => this.props.navigate(this.props.name)}>
         <View style={styles.row}>
           <Text>{this.props.name}: {numBooks}</Text>
         </View>
