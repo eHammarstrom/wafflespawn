@@ -13,7 +13,7 @@ import Home from './screens/Home';
 import Browse from './screens/Browse';
 import Search from './screens/Search';
 import Stats from './screens/Stats';
-import Library from './screens/Library';
+import LibraryNavigator from './screens/Library/LibraryNavigator';
 
 import * as globalStyle from './style';
 
@@ -50,13 +50,6 @@ store.subscribe(() => console.log(store.getState())); // state logging
 
 
 const MainApp = TabNavigator({
-  /*
-  Home: { screen: Home },
-  Browse: { screen: Browse },
-  Search: { screen: Search },
-  Stats: { screen: Stats },
-  Library: { screen: Library }
-  */
   Home: {
     screen: hoist(props => <Home {...props} store={store} />, Home)
   },
@@ -70,7 +63,7 @@ const MainApp = TabNavigator({
     screen: hoist(props => <Stats {...props} store={store} />, Stats)
   },
   Library: {
-    screen: hoist(props => <Library {...props} store={store} />, Library)
+    screen: LibraryNavigator(store)
   }
 }, {
   initialRouteName: 'Home',
