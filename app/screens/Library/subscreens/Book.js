@@ -32,7 +32,7 @@ class Book extends Component {
   }
 };
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
 });
 

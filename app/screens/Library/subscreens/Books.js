@@ -5,8 +5,10 @@ import {
   StyleSheet,
   Text,
   BackHandler,
-  Button,
-  View
+  View,
+  TouchableHighlight,
+  FlatList,
+  Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as utils from './../../../utilities';
@@ -28,24 +30,76 @@ class Books extends Component {
   }
 
   render() {
-    const {books} = this.props;
-    let categoryBooks = values(books[this.category]);
+    const { books } = this.props;
+    let _categoryBooks = values(books[this.category]);
 
-    console.log('categoryBooks', categoryBooks);
+    console.log(_categoryBooks);
 
-    return(
-      <View>
-        <Text>Books, category: {this.category}</Text>
-        <Button
-          title={categoryBooks[0].isbn}
-          onPress={() => this.navigate(categoryBooks[0])} />
-      </View>
+    let _keyExtractor = (item, index) => item.isbn;
+
+    return (
+      <FlatList
+        style={{ flex: 1, backgroundColor: 'white' }}
+        data={_categoryBooks}
+        keyExtractor={_keyExtractor}
+        renderItem={({ item }) =>
+          <BooksItem
+            navigate={this.navigate.bind(this)}
+            key={item.isbn}
+            data={item} />}
+      />
     );
   }
 };
 
-styles = StyleSheet.create({
+class BooksItem extends Component {
+  render() {
+    let _image = null;
 
+    if (this.props.data.image) {
+      _image = (
+        <Image
+          style={styles.thumbnail}
+          source={{ uri: this.props.data.image }} />
+      );
+    }
+
+    return (
+      <TouchableHighlight
+        underlayColor={globalStyle.palette.Accent}
+        onLongPress={null}
+        onPress={() => this.props.navigate(this.props.data)}>
+        <View style={styles.row}>
+          <View style={styles.left}>
+            {_image}
+          </View>
+          <View>
+            <Text>{this.props.data.title}</Text>
+          </View>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 75,
+    borderBottomWidth: 1,
+    borderColor: globalStyle.palette.Divider
+  },
+  left: {
+    width: 75,
+    justifyContent: 'center'
+  },
+  thumbnail: {
+    alignSelf: 'center',
+    height: 50,
+    width: 50,
+    borderRadius: 25
+  },
 });
 
 const mapStateToProps = (state, ownProps) => {
