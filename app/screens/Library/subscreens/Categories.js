@@ -63,10 +63,12 @@ class CategoryItem extends Component {
 
     return (
       <TouchableHighlight
+        underlayColor={globalStyle.palette.Accent}
         onLongPress={null} // edit/remove category
         onPress={() => this.props.navigate(this.props.name)}>
         <View style={styles.row}>
-          <Text>{this.props.name}: {numBooks}</Text>
+          <Text style={styles.title}>{this.props.name.toUpperCase()}</Text>
+          <Text style={styles.number}>{numBooks}</Text>
         </View>
       </TouchableHighlight>
     );
@@ -81,6 +83,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: globalStyle.palette.Divider
   },
+  title: {
+    color: globalStyle.palette.DefaultText,
+    fontSize: 20,
+    marginLeft: 20,
+    alignSelf: 'center',
+    flex: 1
+  },
+  number: {
+    color: globalStyle.palette.SecondaryText,
+    fontSize: 36,
+    marginRight: 50,
+    alignSelf: 'center'
+  }
 });
 
 const mapStateToProps = (state, ownProps) => {
