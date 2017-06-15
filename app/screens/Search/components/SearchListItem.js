@@ -100,7 +100,11 @@ class SearchListItem extends Component {
           <TouchableHighlight
             onLongPress={null}
             onPress={() =>
-              this.props.showPicker(_imageData, this.props.data.volumeInfo.industryIdentifiers)}
+              this.props.showPicker({
+                image: _imageData,
+                industryIdentifiers: this.props.data.volumeInfo.industryIdentifiers,
+                title: _titleData
+              })}
             underlayColor={globalStyle.palette.Accent}
             style={styles.addButton}>
             <Icon

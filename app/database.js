@@ -16,21 +16,34 @@ function registerUser(idToken, accessToken) {
     });
 }
 
-async function addBookToList(bookISBN, list) {
+async function addBookToList(isbn, title, imageUrl, list) {
   if (!firebase.auth().currentUser) return;
 
-  console.log('database.addBookToList, book:', bookISBN);
+  console.log('database.addBookToList, book:', isbn);
+  console.log('database.addBookToList, title:', title);
+  console.log('database.addBookToList, imageUrl:', imageUrl);
   console.log('database.addBookToList, list:', list);
 
   const _userRef = 'users/' + firebase.auth().currentUser.uid;
+  const _bookRef = firebase.database()
+    .ref(_userRef + '/books')
+    .child(list)
+    .child('book-' + isbn);
 
   try {
-    await firebase.database()
-      .ref(_userRef + '/books')
-      .child(list)
-      .child('book-' + bookISBN)
-      .child('isbn') // select specific field to preserve other object fields
-      .set(bookISBN);
+    let req = await _bookRef.once('value');
+
+    let book = req.val();
+
+    if (book) {
+      book.isbn = isbn;
+      book.title = title;
+      book.image = imageUrl;
+    } else {
+      book = { isbn: isbn, title: title, image: imageUrl };
+    }
+
+    await _bookRef.update(book);
   } catch (e) {
     console.error(e);
   }

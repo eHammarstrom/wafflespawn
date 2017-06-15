@@ -73,13 +73,10 @@ class Search extends Component {
         }, 'Search'));
   }
 
-  showPicker(image, industryIdentifiers) { // industryIdentifiers = isbn-13 and isbn-10
+  showPicker(pickerData) { // industryIdentifiers = isbn-13 and isbn-10
     this.setState({
       showPicker: true,
-      pickerData: {
-        image,
-        industryIdentifiers
-      }
+      pickerData: pickerData
     });
   }
 

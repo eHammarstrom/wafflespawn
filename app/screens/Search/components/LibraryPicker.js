@@ -16,6 +16,8 @@ class LibraryPicker extends Component {
   addPress(listType) {
     let _industryId = this.props.data.industryIdentifiers;
     let _isbn;
+    let _image = this.retrieveImageUrl(this.props.data.image);
+    let _title = this.props.data.title;
 
     if (_industryId[0]) {
       _isbn = this.props.data.industryIdentifiers[0].identifier;
@@ -23,23 +25,29 @@ class LibraryPicker extends Component {
       throw Error('No isbn found on book.');
     }
 
-    database.addBookToList(_isbn, listType);
+    database.addBookToList(_isbn, _title, _image, listType);
+  }
+
+  retrieveImageUrl(imageData) {
+    let _source = null;
+
+    if (imageData) {
+      if (imageData.large)
+        _source = imageData.large;
+      else if (imageData.thumbnail)
+        _source = imageData.thumbnail;
+      else if (imageData.smallThumbnail)
+        _source = imageData.smallThumbnail;
+    }
+
+    return _source;
   }
 
   render() {
     let _image = null;
+    let _source = this.retrieveImageUrl(this.props.data.image);
 
-    let _imageData = this.props.data.image;
-    if (_imageData) {
-      let _source;
-
-      if (_imageData.large)
-        _source = _imageData.large;
-      else if (_imageData.thumbnail)
-        _source = _imageData.thumbnail;
-      else if (_imageData.smallThumbnail)
-        _source = _imageData.smallThumbnail;
-
+    if (_source) {
       _image = <Image
         style={styles.thumbnail}
         source={{ uri: _source }} />;
@@ -56,19 +64,7 @@ class LibraryPicker extends Component {
         position={'center'}>
         
         <View style={styles.header}>
-          {/*<Icon style={{marginLeft: 35,flex: 1,alignSelf: 'center'}} name='ios-add' size={52} color={globalStyle.palette.Accent} /> */}
-          {/*
-          <Text style={styles.headerTitle}>
-            Add
-          </Text>
-          */}
           {_image}
-          {/*
-          <Text style={styles.headerTitle}>
-            to
-          </Text>
-          */}
-          {/*<View style={{flex: 1}}></View>*/}
         </View>
 
         <TouchableHighlight
@@ -115,18 +111,14 @@ const styles = StyleSheet.create({
   },
   header: {
     justifyContent: 'center',
-    //flexDirection: 'row',
     height: 130,
     backgroundColor: globalStyle.palette.PrimaryDefault
   },
   thumbnail: {
-    //flex: 1,
     alignSelf: 'center',
     height: 115,
     width: 75,
     borderRadius: 1,
-    //marginLeft: 15,
-    //marginRight: 15
   },
   headerTitle: {
     flex: 1,
