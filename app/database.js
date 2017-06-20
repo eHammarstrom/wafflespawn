@@ -16,12 +16,21 @@ function registerUser(idToken, accessToken) {
     });
 }
 
-async function addBookToList(isbn, title, imageUrl, list) {
+async function addBookToList(data, list) {
   if (!firebase.auth().currentUser) return;
+
+  const {
+    volumeId,
+    isbn,
+    title,
+    imageUrl,
+    totalPages
+  } = data;
 
   console.log('database.addBookToList, book:', isbn);
   console.log('database.addBookToList, title:', title);
   console.log('database.addBookToList, imageUrl:', imageUrl);
+  console.log('database.addBookToList, totalPages:', list);
   console.log('database.addBookToList, list:', list);
 
   const _userRef = 'users/' + firebase.auth().currentUser.uid;
@@ -36,17 +45,32 @@ async function addBookToList(isbn, title, imageUrl, list) {
     let book = req.val();
 
     if (book) {
+      book.volumeId = volumeId;
       book.isbn = isbn;
       book.title = title;
-      book.image = imageUrl;
+      book.image = tryOrDefault(imageUrl, "");
+      book.totalPages = tryOrDefault(totalPages, 0);
     } else {
-      book = { isbn: isbn, title: title, image: imageUrl };
+      book = {
+        volumeId: volumeId,
+        isbn: isbn,
+        title: title,
+        image: tryOrDefault(imageUrl, ""),
+        totalPages: tryOrDefault(totalPages, 0)
+      };
     }
 
     await _bookRef.update(book);
   } catch (e) {
     console.error(e);
   }
+}
+
+function tryOrDefault(item, def) {
+  if (item)
+    return item;
+  else
+    return def;
 }
 
 let bookLists = {

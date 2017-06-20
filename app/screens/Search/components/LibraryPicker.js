@@ -18,6 +18,7 @@ class LibraryPicker extends Component {
     let _isbn;
     let _image = this.retrieveImageUrl(this.props.data.image);
     let _title = this.props.data.title;
+    let _totalPages = this.props.data.pages;
 
     if (_industryId[0]) {
       _isbn = this.props.data.industryIdentifiers[0].identifier;
@@ -25,7 +26,13 @@ class LibraryPicker extends Component {
       throw Error('No isbn found on book.');
     }
 
-    database.addBookToList(_isbn, _title, _image, listType);
+    database.addBookToList({
+      volumeId: this.props.data.volumeId,
+      isbn: _isbn,
+      title: _title,
+      imageUrl: _image,
+      totalPages: _totalPages
+    }, listType);
   }
 
   retrieveImageUrl(imageData) {
@@ -62,7 +69,7 @@ class LibraryPicker extends Component {
         isDisabled={false}
         isOpen={true}
         position={'center'}>
-        
+
         <View style={styles.header}>
           {_image}
         </View>

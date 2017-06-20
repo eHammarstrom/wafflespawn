@@ -46,6 +46,7 @@ class Books extends Component {
           <BooksItem
             navigate={this.navigate.bind(this)}
             key={item.isbn}
+            category={this.category}
             data={item} />}
       />
     );
@@ -55,13 +56,26 @@ class Books extends Component {
 class BooksItem extends Component {
   render() {
     let _image = null;
+    let _progress = null;
 
-    if (this.props.data.image) {
+    const {
+      image,
+      totalPages
+    } = this.props.data;
+
+    if (image) {
       _image = (
         <Image
           style={styles.thumbnail}
-          source={{ uri: this.props.data.image }} />
+          source={{ uri: image }} />
       );
+    }
+
+    if (totalPages !== 0 && this.props.category !== 'finished') {
+      _progress = {
+        width: ((200 / totalPages) * 100)
+          .toString() + '%'
+      }
     }
 
     return (
@@ -70,6 +84,7 @@ class BooksItem extends Component {
         onLongPress={null}
         onPress={() => this.props.navigate(this.props.data)}>
         <View style={styles.row}>
+          <View style={StyleSheet.flatten([styles.progress, _progress])} />
           <View style={styles.left}>
             {_image}
           </View>
@@ -89,6 +104,12 @@ const styles = StyleSheet.create({
     height: 75,
     borderBottomWidth: 1,
     borderColor: globalStyle.palette.Divider
+  },
+  progress: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0,255,0,0.2)',
+    height: '100%',
+    width: 0
   },
   left: {
     width: 75,

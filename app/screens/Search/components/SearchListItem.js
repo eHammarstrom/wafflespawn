@@ -103,7 +103,9 @@ class SearchListItem extends Component {
               this.props.showPicker({
                 image: _imageData,
                 industryIdentifiers: this.props.data.volumeInfo.industryIdentifiers,
-                title: _titleData
+                title: _titleData,
+                pages: this.props.data.volumeInfo.pageCount,
+                volumeId: this.props.data.id
               })}
             underlayColor={globalStyle.palette.Accent}
             style={styles.addButton}>
