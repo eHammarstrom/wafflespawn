@@ -13,21 +13,26 @@ import * as database from './../../../database';
 import * as globalStyle from './../../../style';
 
 class LibraryPicker extends Component {
+  /*
+   * Extracts book data and requests to add book to DB
+   */
   addPress(listType) {
-    let _industryId = this.props.data.industryIdentifiers;
+    const { data } = this.props;
+
+    let _industryId = data.industryIdentifiers;
     let _isbn;
-    let _image = this.retrieveImageUrl(this.props.data.image);
-    let _title = this.props.data.title;
-    let _totalPages = this.props.data.pages;
+    let _image = this.retrieveImageUrl(data.image);
+    let _title = data.title;
+    let _totalPages = data.pages;
 
     if (_industryId[0]) {
-      _isbn = this.props.data.industryIdentifiers[0].identifier;
+      _isbn = data.industryIdentifiers[0].identifier;
     } else {
       throw Error('No isbn found on book.');
     }
 
     database.addBookToList({
-      volumeId: this.props.data.volumeId,
+      volumeId: data.volumeId,
       isbn: _isbn,
       title: _title,
       imageUrl: _image,
@@ -35,6 +40,9 @@ class LibraryPicker extends Component {
     }, listType);
   }
 
+  /*
+   * Extracts an image, if any, with highest quality from book object
+   */
   retrieveImageUrl(imageData) {
     let _source = null;
 
@@ -51,8 +59,10 @@ class LibraryPicker extends Component {
   }
 
   render() {
+    const { data } = this.props;
+
     let _image = null;
-    let _source = this.retrieveImageUrl(this.props.data.image);
+    let _source = this.retrieveImageUrl(data.image);
 
     if (_source) {
       _image = <Image
