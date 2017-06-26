@@ -59,7 +59,7 @@ class SearchListItem extends Component {
       ratingsCount: item.volumeInfo.ratingsCount
     };
 
-    /*
+    /**
      * if rating system below does not suffice, apply machine learning.
      */
     if (_ratingData.averageRating && _ratingData.ratingsCount) {

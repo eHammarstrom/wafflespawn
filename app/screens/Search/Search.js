@@ -51,17 +51,23 @@ class Search extends Component {
   }
 
   componentDidMount() {
+    // if keyboard is hidden, show tab bar
     Keyboard.addListener('keyboardDidHide', () => {
       this.props.navigation.dispatch(
         nav.setParams({ showTabBar: true }, 'Search'));
     });
 
+    // if keyboard is showing, hide tab bar
     Keyboard.addListener('keyboardDidShow', () => {
       this.props.navigation.dispatch(
         nav.setParams({ showTabBar: false }, 'Search'));
         this.hidePicker();
     });
 
+    /**
+     * Sets initial states for tab bar and search bar
+     * and propagates searchButton to top navigation bar
+     */
     this.props.navigation.dispatch(
       nav.setParams(
         {
@@ -71,7 +77,11 @@ class Search extends Component {
         }, 'Search'));
   }
 
-  showPicker(pickerData) { // industryIdentifiers = isbn-13 and isbn-10
+  /**
+   * Used by SearchListItem to show picker with propagated data
+   * (from SearchListItem)
+   */
+  showPicker(pickerData) {
     this.setState({
       showPicker: true,
       pickerData: pickerData
@@ -80,6 +90,10 @@ class Search extends Component {
 
   hidePicker() { this.setState({ showPicker: false, pickerData: null }) }
 
+  /**
+   * Shapes search button component
+   * @param {*function executed on click} onClick
+   */
   searchButton(onClick) {
     return (
       <Icon.Button
@@ -131,6 +145,9 @@ class Search extends Component {
     return navOptions;
   }
 
+  /**
+   * Handles initial search query
+   */
   booksSearch() {
     const _baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
     let _searchInput = this.searchInput; // lock search param
@@ -144,6 +161,10 @@ class Search extends Component {
       .catch(error => console.error(error)); // TODO: Handle search error, maybe alert
   }
 
+  /**
+   * Handles further queries on same search input
+   * Used when scrolling down the search list
+   */
   continuedBooksSearch() {
     if (!this.searchInput || this.searchIsExhausted) return;
 
@@ -168,8 +189,15 @@ class Search extends Component {
       .catch(error => console.error(error));
   }
 
+  /**
+   * Used by searchBar to propagate user input to Search state
+   * @param {*text used for search queries} input
+   */
   setSearchInput(input) { this.searchInput = input }
 
+  /**
+   * Sets appropriate states when leaving search input bar
+   */
   onBackSearchButton() {
     this.searchBar.hide();
 
@@ -183,10 +211,14 @@ class Search extends Component {
     let _nav = this.props.navigation;
     let _heightFix = false;
 
+    /**
+     * Fixes SearchList disappearing when hiding
+     * top navigation bar and showing search input field (absolute)
+     */
     if (_nav.state.params && _nav.state.params.showSearch)
       _heightFix = true;
 
-    /* introduces impurity to the render function ... works for now */
+    // introduces impurity to the render function ... works for now
     if (this.searchBar) {
       if (_nav.state.params && _nav.state.params.showSearch && !this.once) {
         this.once = true;

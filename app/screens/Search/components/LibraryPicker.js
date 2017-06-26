@@ -13,7 +13,7 @@ import * as database from './../../../database';
 import * as globalStyle from './../../../style';
 
 class LibraryPicker extends Component {
-  /*
+  /**
    * Extracts book data and requests to add book to DB
    */
   addPress(listType) {
@@ -40,7 +40,8 @@ class LibraryPicker extends Component {
     }, listType);
   }
 
-  /*
+  /**
+   *
    * Extracts an image, if any, with highest quality from book object
    */
   retrieveImageUrl(imageData) {
