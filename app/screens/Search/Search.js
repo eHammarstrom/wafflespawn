@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   Keyboard,
-  ListView,
+  FlatList,
   Platform
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
@@ -222,17 +222,15 @@ class Search extends Component {
             hidePicker={this.hidePicker.bind(this)}
             data={this.state.pickerData} /> : null}
 
-        <ListView
+        <FlatList
+          keyExtractor={(_, i) => i}
           onEndReached={this.continuedBooksSearch.bind(this)}
-          enableEmptySections={true}
-          dataSource={
-            new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-              .cloneWithRows(this.state.bookSearchList)}
-          renderRow={rowData =>
+          data={this.state.bookSearchList}
+          renderItem={item =>
             <SearchListItem
               hidePicker={this.hidePicker.bind(this)}
               showPicker={this.showPicker.bind(this)}
-              data={rowData} />} />
+              data={item} />} />
       </View>
     );
   }

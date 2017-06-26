@@ -16,13 +16,15 @@ class SearchListItem extends Component {
   }
 
   render() {
-    let _bookId = this.props.data.id;
+    const { index, item } = this.props.data;
+
+    let _bookId = item.id;
     let _image = null;
     let _title = null;
     let _authors = null;
     let _rating = null;
 
-    let _imageData = this.props.data.volumeInfo.imageLinks;
+    let _imageData = item.volumeInfo.imageLinks;
     if (_imageData) {
       _image = (
         <Image
@@ -31,7 +33,7 @@ class SearchListItem extends Component {
       );
     }
 
-    let _titleData = this.props.data.volumeInfo.title;
+    let _titleData = item.volumeInfo.title;
     if (_titleData) {
       _title = (
         <Text
@@ -42,7 +44,7 @@ class SearchListItem extends Component {
       );
     }
 
-    let _authorsData = this.props.data.volumeInfo.authors;
+    let _authorsData = item.volumeInfo.authors;
     if (_authorsData) {
       _authors = (
         <Text style={styles.author}>
@@ -57,8 +59,8 @@ class SearchListItem extends Component {
     }
 
     let _ratingData = {
-      averageRating: this.props.data.volumeInfo.averageRating,
-      ratingsCount: this.props.data.volumeInfo.ratingsCount
+      averageRating: item.volumeInfo.averageRating,
+      ratingsCount: item.volumeInfo.ratingsCount
     };
     if (_ratingData.averageRating && _ratingData.ratingsCount) {
       let _points = _ratingData.averageRating;
@@ -102,10 +104,10 @@ class SearchListItem extends Component {
             onPress={() =>
               this.props.showPicker({
                 image: _imageData,
-                industryIdentifiers: this.props.data.volumeInfo.industryIdentifiers,
+                industryIdentifiers: item.volumeInfo.industryIdentifiers,
                 title: _titleData,
-                pages: this.props.data.volumeInfo.pageCount,
-                volumeId: this.props.data.id
+                pages: item.volumeInfo.pageCount,
+                volumeId: item.id
               })}
             underlayColor={globalStyle.palette.Accent}
             style={styles.addButton}>
