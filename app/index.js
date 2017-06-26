@@ -95,7 +95,7 @@ const App = StackNavigator({
 
 const ProvidedApp = () => (
   <Provider store={store}>
-    <App screenProps={store} />
+    <App />
   </Provider>
 );
 
