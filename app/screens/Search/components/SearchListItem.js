@@ -25,7 +25,7 @@ class SearchListItem extends Component {
     let _rating = null;
 
     let _imageData = item.volumeInfo.imageLinks;
-    if (_imageData) {
+    if (_imageData) { // if image exists, create image component
       _image = (
         <Image
           style={styles.thumbnail}
@@ -34,7 +34,7 @@ class SearchListItem extends Component {
     }
 
     let _titleData = item.volumeInfo.title;
-    if (_titleData) {
+    if (_titleData) { // if title exists, create title component
       _title = (
         <Text
           numberOfLines={1}
@@ -45,7 +45,7 @@ class SearchListItem extends Component {
     }
 
     let _authorsData = item.volumeInfo.authors;
-    if (_authorsData) {
+    if (_authorsData) { // if authors exists, create author component
       _authors = (
         <Text style={styles.author}>
           {
@@ -62,10 +62,15 @@ class SearchListItem extends Component {
       averageRating: item.volumeInfo.averageRating,
       ratingsCount: item.volumeInfo.ratingsCount
     };
+
+    /*
+     * if rating system below does not suffice, apply machine learning.
+     */
     if (_ratingData.averageRating && _ratingData.ratingsCount) {
       let _points = _ratingData.averageRating;
       let _stars = [];
 
+      // while we have whole ratings, push star components
       while (_points >= 1) {
         _stars.push(
           <Icon name='ios-star' style={styles.star} />
@@ -74,6 +79,7 @@ class SearchListItem extends Component {
         _points -= 1;
       }
 
+      // if we have a half-ish rating, push a half-star component
       _points -= 1;
       if (_points >= -0.5 && _points < 0) {
         _stars.push(
@@ -101,7 +107,7 @@ class SearchListItem extends Component {
         <View style={styles.right}>
           <TouchableHighlight
             onLongPress={null}
-            onPress={() =>
+            onPress={() => // propagates back to Search.js to set showPicker state
               this.props.showPicker({
                 image: _imageData,
                 industryIdentifiers: item.volumeInfo.industryIdentifiers,
