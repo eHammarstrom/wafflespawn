@@ -17,11 +17,7 @@ import * as globalStyle from './../../../style';
 class Books extends Component {
   constructor(props) {
     super(props);
-
-    console.log('books', props);
-
     this.category = props.navigation.state.params.category;
-    this.state = {};
   }
 
   navigate(book) {

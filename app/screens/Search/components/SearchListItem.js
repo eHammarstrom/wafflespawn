@@ -11,10 +11,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import * as globalStyle from './../../../style';
 
 class SearchListItem extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { index, item } = this.props.data;
 

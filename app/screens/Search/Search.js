@@ -50,8 +50,6 @@ class Search extends Component {
     };
   }
 
-  componentWillMount() { }
-
   componentDidMount() {
     Keyboard.addListener('keyboardDidHide', () => {
       this.props.navigation.dispatch(
@@ -147,10 +145,6 @@ class Search extends Component {
   }
 
   continuedBooksSearch() {
-    //console.log('continuedBooksSearch:', this.searchInput);
-    //console.log('continuedBooksSearch:', this.state.bookSearchList);
-    //console.log('continuedBooksSearch:', this.searchIsExhausted);
-
     if (!this.searchInput || this.searchIsExhausted) return;
 
     let _searchInput = this.searchInput;

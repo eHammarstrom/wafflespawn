@@ -11,8 +11,6 @@ class Stats extends Component {
   constructor(props) {
     super(props);
     utils.throwLoginIfNotAuthed(this.props.navigation);
-
-    this.state = {};
   }
 
   static navigationOptions = {

@@ -14,18 +14,12 @@ import * as globalStyle from './../../../style';
 import Loading from './../../../components/Loading';
 
 class Categories extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
   navigate(category) {
     this.props.navigation.navigate('Books', { category });
   }
 
   render() {
-    const {books} = this.props;
+    const { books } = this.props;
 
     if (!books)
       return <Loading />;
@@ -51,12 +45,6 @@ class Categories extends Component {
 };
 
 class CategoryItem extends Component {
-  constructor(props) {
-    super(props);
-
-    console.log('categoryItem', this.props);
-  }
-
   render() {
     let numBooks =
       reduce(omit(this.props.data, 'key'), n => n + 1, 0);
