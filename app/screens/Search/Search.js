@@ -61,7 +61,7 @@ class Search extends Component {
     Keyboard.addListener('keyboardDidShow', () => {
       this.props.navigation.dispatch(
         nav.setParams({ showTabBar: false }, 'Search'));
-        this.hidePicker();
+      this.hidePicker();
     });
 
     /**
@@ -88,7 +88,7 @@ class Search extends Component {
     });
   }
 
-  hidePicker() { this.setState({ showPicker: false, pickerData: null }) }
+  hidePicker() { this.setState({ showPicker: false, pickerData: null }); }
 
   /**
    * Shapes search button component
@@ -105,8 +105,8 @@ class Search extends Component {
         underlayColor={globalStyle.palette.Accent}
         name='ios-search'>
         Search
-        </Icon.Button>
-    )
+      </Icon.Button>
+    );
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -158,7 +158,7 @@ class Search extends Component {
     fetch(_baseUrl + _searchInput)
       .then(res =>
         res.json().then(data => this.setState({ bookSearchList: data.items })))
-      .catch(error => console.error(error)); // TODO: Handle search error, maybe alert
+        .catch(error => console.error(error)); // TODO: Handle search error, maybe alert
   }
 
   /**
@@ -185,15 +185,15 @@ class Search extends Component {
             }
 
             this.setState({ bookSearchList: [...this.state.bookSearchList, ...data.items] });
-        }))
-      .catch(error => console.error(error));
+          }))
+        .catch(error => console.error(error));
   }
 
   /**
    * Used by searchBar to propagate user input to Search state
    * @param {*text used for search queries} input
    */
-  setSearchInput(input) { this.searchInput = input }
+  setSearchInput(input) { this.searchInput = input; }
 
   /**
    * Sets appropriate states when leaving search input bar
@@ -228,36 +228,36 @@ class Search extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-          <SearchBar
-            backgroundColor={globalStyle.palette.PrimaryDefault}
-            iconColor={globalStyle.palette.PrimaryLight}
-            textColor={globalStyle.palette.PrimaryText}
-            selectionColor={globalStyle.palette.Accent}
-            placeholder='Title, Author, ISBN'
-            animate={false}
+        <SearchBar
+          backgroundColor={globalStyle.palette.PrimaryDefault}
+          iconColor={globalStyle.palette.PrimaryLight}
+          textColor={globalStyle.palette.PrimaryText}
+          selectionColor={globalStyle.palette.Accent}
+          placeholder='Title, Author, ISBN'
+          animate={false}
 
-            onSubmitEditing={this.booksSearch.bind(this)}
-            handleChangeText={this.setSearchInput.bind(this)}
-            onBack={this.onBackSearchButton.bind(this)}
-            ref={ref => this.searchBar = ref} />
-        
+          onSubmitEditing={this.booksSearch.bind(this)}
+          handleChangeText={this.setSearchInput.bind(this)}
+          onBack={this.onBackSearchButton.bind(this)}
+          ref={ref => this.searchBar = ref} />
+
         {(_heightFix) ? <View style={{ height: (Platform.OS === 'ios') ? 52 : 62}} /> : null}
 
         {(this.state.showPicker) ?
-          <LibraryPicker
-            hidePicker={this.hidePicker.bind(this)}
-            data={this.state.pickerData} /> : null}
-
-        <FlatList
-          keyExtractor={(_, i) => i}
-          onEndReached={this.continuedBooksSearch.bind(this)}
-          data={this.state.bookSearchList}
-          renderItem={item =>
-            <SearchListItem
+            <LibraryPicker
               hidePicker={this.hidePicker.bind(this)}
-              showPicker={this.showPicker.bind(this)}
-              data={item} />} />
-      </View>
+              data={this.state.pickerData} /> : null}
+
+            <FlatList
+              keyExtractor={(_, i) => i}
+              onEndReached={this.continuedBooksSearch.bind(this)}
+              data={this.state.bookSearchList}
+              renderItem={item =>
+                  <SearchListItem
+                    hidePicker={this.hidePicker.bind(this)}
+                    showPicker={this.showPicker.bind(this)}
+                    data={item} />} />
+              </View>
     );
   }
 }

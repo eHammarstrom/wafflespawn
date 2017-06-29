@@ -32,7 +32,7 @@ firebase.initializeApp(config);
  * DEBUG
  */
 import devToolsEnhancer from 'remote-redux-devtools'; // dev debug
-  // debugger can be accessed here: http://remotedev.io/local/
+// debugger can be accessed here: http://remotedev.io/local/
 
 const store = createStore(
   reducer,

@@ -18,4 +18,4 @@ module.exports = {
     params: params,
     key: key
   })
-}
+};

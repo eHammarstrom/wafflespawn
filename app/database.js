@@ -77,10 +77,10 @@ let bookLists = {
   reading: 'reading',
   toRead: 'to-read',
   finished: 'finished'
-}
+};
 
 module.exports = {
   registerUser,
   addBookToList,
   bookLists
-}
+};

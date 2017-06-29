@@ -33,6 +33,6 @@ const LibraryNavigator = (store) => {
   };
 
   return nav;
-}
+};
 
 export default LibraryNavigator;

@@ -71,7 +71,7 @@ class BooksItem extends Component {
       _progress = {
         width: ((200 / totalPages) * 100)
           .toString() + '%'
-      }
+      };
     }
 
     return (
@@ -123,7 +123,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     books: state.user.books
   };
-}
+};
 
 Books = connect(mapStateToProps)(Books);
 

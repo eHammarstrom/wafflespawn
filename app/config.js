@@ -34,4 +34,4 @@ const GoogleAuth = {
 
 module.exports = {
   GoogleAuth
-}
+};

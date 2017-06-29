@@ -44,7 +44,7 @@ class Login extends Component {
 
   render() {
     if (this.state.isLoading) {
-      return <Loading />
+      return <Loading />;
     } else {
       return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -116,7 +116,7 @@ async function googleAuth() {
   const gUser = await GoogleSignIn.signInPromise();
 
   try {
-    let user = await database.registerUser(gUser.idToken, gUser.accessToken)
+    let user = await database.registerUser(gUser.idToken, gUser.accessToken);
 
     this.props.navigation.dispatch(
       navigation.initiateToMainApp());

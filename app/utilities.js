@@ -24,4 +24,4 @@ function subscribeToUserBooks(store) {
 module.exports = {
   throwLoginIfNotAuthed,
   subscribeToUserBooks
-}
+};

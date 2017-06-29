@@ -38,7 +38,7 @@ class Book extends Component {
   }
 
   render() {
-    if (!this.state.gBook) return <Loading />
+    if (!this.state.gBook) return <Loading />;
 
     let _image = null;
 
@@ -114,7 +114,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     books: state.user.books
   };
-}
+};
 
 Book = connect(mapStateToProps)(Book);
 

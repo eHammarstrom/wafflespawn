@@ -90,7 +90,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     books: state.user.books
   };
-}
+};
 
 Categories = connect(mapStateToProps)(Categories);
 

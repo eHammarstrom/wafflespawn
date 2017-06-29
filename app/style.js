@@ -19,7 +19,7 @@ const palette = {
   DefaultText: '#212121',
   SecondaryText: '#757575',
   Divider: '#BDBDBD'
-}
+};
 
 const icons = StyleSheet.create({
   tabBarIcons: {
@@ -41,4 +41,4 @@ module.exports = {
   icons: icons,
   text: text,
   palette: palette
-}
+};
