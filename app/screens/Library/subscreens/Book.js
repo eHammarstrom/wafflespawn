@@ -14,13 +14,18 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import * as utils from './../../../utilities';
 import * as globalStyle from './../../../style';
 import Loading from './../../../components/Loading';
+import ProgressModal from './Book/ProgressModal';
+import ProgressBar from './Book/ProgressBar';
 
 class Book extends Component {
   constructor(props) {
     super(props);
 
-    this.book = props.navigation.state.params.book;
+    this.volumeId = props.navigation.state.params.book.volumeId;
     this.category = props.navigation.state.params.category;
+
+    this.book = this.props.books[this.category][this.volumeId];
+
     this.state = { gBook: null };
 
     this.retrieveBook();
@@ -35,6 +40,10 @@ class Book extends Component {
       .then(res =>
         res.json().then(data => this.setState({ gBook: data })))
       .catch(error => console.error(error)); // TODO: Handle error, maybe alert
+  }
+
+  showProgressModal() {
+    this.progressModal.open();
   }
 
   render() {
@@ -71,6 +80,16 @@ class Book extends Component {
         <Text style={styles.title}>{title}</Text>
         {_image}
         <Text style={styles.authors}>{authors}</Text>
+        <ProgressModal
+          ref={ref => this.progressModal = ref}
+          totalPages={this.book.totalPages}
+          currentPage={this.book.currentPage | 0} />
+        <ProgressBar
+          showProgressModal={this.showProgressModal.bind(this)}
+          category={this.category}
+          volumeId={this.volumeId}
+          totalPages={this.book.totalPages}
+          currentPage={this.book.currentPage | 0} />
         <HTMLView
           value={description}
           style={styles.description}
