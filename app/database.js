@@ -27,17 +27,13 @@ async function addBookToList(data, list) {
     totalPages
   } = data;
 
-  console.log('database.addBookToList, book:', isbn);
-  console.log('database.addBookToList, title:', title);
-  console.log('database.addBookToList, imageUrl:', imageUrl);
-  console.log('database.addBookToList, totalPages:', list);
-  console.log('database.addBookToList, list:', list);
+  console.log('database.addBookToList, book - title:', isbn, '-', title);
 
   const _userRef = 'users/' + firebase.auth().currentUser.uid;
   const _bookRef = firebase.database()
     .ref(_userRef + '/books')
     .child(list)
-    .child('book-' + isbn);
+    .child(volumeId);
 
   try {
     let req = await _bookRef.once('value');
