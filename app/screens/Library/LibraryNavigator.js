@@ -22,15 +22,16 @@ const LibraryNavigator = (store) => {
       path: 'books/:category/:isbn',
       screen: hoist(props => <Book {...props} store={store} />, Book)
     }
-  }, { headerMode: 'none' });
+  });
 
-  nav.navigationOptions = {
-    title: 'Library',
+  nav.navigationOptions = () => ({
+    header: null,
+    tabBarLabel: 'Library',
     tabBarIcon: ({ tintColor }) => (
       <Icon
         style={globalStyle.icons.tabBarIcons}
         name='ios-book' />)
-  };
+  });
 
   return nav;
 };

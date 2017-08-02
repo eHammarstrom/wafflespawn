@@ -25,20 +25,16 @@ const icons = StyleSheet.create({
   tabBarIcons: {
     fontSize: 26,
     color: palette.PrimaryText
-  }
-});
-
-const text = StyleSheet.create({
-  title: {
-
   },
-  description: {
-
+  headerIcons: {
+    fontSize: 26,
+    color: palette.SecondaryText,
+    paddingLeft: 10,
+    paddingRight: 10
   }
 });
 
 module.exports = {
-  icons: icons,
-  text: text,
-  palette: palette
+  palette,
+  icons,
 };
