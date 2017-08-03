@@ -59,6 +59,20 @@ class LibraryPicker extends Component {
     return _source;
   }
 
+  createCategoryOption(category) {
+    return (
+      <TouchableHighlight
+        style={styles.button}
+        underlayColor={globalStyle.palette.Accent}
+        onLongPress={null}
+        onPress={() => this.addPress(category)}>
+        <Text style={styles.buttonText}>
+          {category}
+        </Text>
+      </TouchableHighlight>
+    );
+  }
+
   render() {
     const { data } = this.props;
 
@@ -85,35 +99,8 @@ class LibraryPicker extends Component {
           {_image}
         </View>
 
-        <TouchableHighlight
-          style={styles.button}
-          underlayColor={globalStyle.palette.Accent}
-          onLongPress={null}
-          onPress={() => this.addPress(database.bookLists.toRead)}>
-          <Text style={styles.buttonText}>
-            Add to To Read
-          </Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          style={styles.button}
-          underlayColor={globalStyle.palette.Accent}
-          onLongPress={null}
-          onPress={() => this.addPress(database.bookLists.reading)}>
-          <Text style={styles.buttonText}>
-            Add to Reading
-          </Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          style={styles.button}
-          underlayColor={globalStyle.palette.Accent}
-          onLongPress={null}
-          onPress={() => this.addPress(database.bookLists.finished)}>
-          <Text style={styles.buttonText}>
-            Add to Finished
-          </Text>
-        </TouchableHighlight>
+        {/* Spawns option buttons for every category */}
+        {Object.entries(database.bookLists).map((x) => this.createCategoryOption(x[1]))}
 
       </Modal>
     );

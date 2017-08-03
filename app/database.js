@@ -70,9 +70,10 @@ function tryOrDefault(item, def) {
 }
 
 let bookLists = {
-  reading: 'reading',
-  toRead: 'to-read',
-  finished: 'finished'
+  planToRead: 'Plan to Read',
+  currentlyReading: 'Currently Reading',
+  onHold: 'On Hold',
+  completed: 'Completed',
 };
 
 module.exports = {
