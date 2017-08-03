@@ -18,6 +18,8 @@ class Categories extends Component {
     this.props.navigation.navigate('Books', { category });
   }
 
+  static navigationOptions = { title: 'Library' };
+
   render() {
     const { books } = this.props;
 

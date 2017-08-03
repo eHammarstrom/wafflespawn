@@ -1,5 +1,6 @@
 import { values } from 'lodash';
 import React, { Component } from 'react';
+import { capitalize, lowerCase } from 'lodash';
 import { connect } from 'react-redux';
 import {
   StyleSheet,
@@ -11,6 +12,7 @@ import {
   Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import HeaderButtonRight from './../../components/HeaderButtonRight';
 import * as utils from './../../../utilities';
 import * as globalStyle from './../../../style';
 
@@ -18,6 +20,18 @@ class Books extends Component {
   constructor(props) {
     super(props);
     this.category = props.navigation.state.params.category;
+
+    props.navigation.setParams(
+      { headerButtonRightOnClick: this.showFilterOptions.bind(this) });
+  }
+
+  static navigationOptions = ({ navigation }) => ({
+    title: capitalize(lowerCase(navigation.state.params.category)),
+    headerRight: <HeaderButtonRight navigation={navigation} iconName={'filter-list'} />
+  });
+
+  showFilterOptions() {
+    console.log('showing filter options');
   }
 
   navigate(book) {
