@@ -1,6 +1,5 @@
-import { values } from 'lodash';
+import { values, capitalize, lowerCase } from 'lodash';
 import React, { Component } from 'react';
-import { capitalize, lowerCase } from 'lodash';
 import { connect } from 'react-redux';
 import {
   StyleSheet,
@@ -13,6 +12,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderButtonRight from './../../components/HeaderButtonRight';
+import FilterModal from './Books/FilterModal';
 import * as utils from './../../../utilities';
 import * as globalStyle from './../../../style';
 
@@ -22,7 +22,9 @@ class Books extends Component {
     this.category = props.navigation.state.params.category;
 
     props.navigation.setParams(
-      { headerButtonRightOnClick: this.showFilterOptions.bind(this) });
+      { headerButtonRightOnClick: this.showFilterModal.bind(this) });
+
+    this.state =  { filterModalOpen: false };
   }
 
   static navigationOptions = ({ navigation }) => ({
@@ -30,8 +32,11 @@ class Books extends Component {
     headerRight: <HeaderButtonRight navigation={navigation} iconName={'filter-list'} />
   });
 
-  showFilterOptions() {
-    console.log('showing filter options');
+  showFilterModal() {
+    if (this.state.filterModalOpen)
+      this.filterModal.close();
+    else
+      this.filterModal.open();
   }
 
   navigate(book) {
@@ -48,17 +53,24 @@ class Books extends Component {
     let _keyExtractor = (item, index) => item.isbn;
 
     return (
-      <FlatList
-        style={{ flex: 1, backgroundColor: 'white' }}
-        data={_categoryBooks}
-        keyExtractor={_keyExtractor}
-        renderItem={({ item }) =>
-          <BooksItem
-            navigate={this.navigate.bind(this)}
-            key={item.isbn}
-            category={this.category}
-            data={item} />}
-      />
+      <View style={{ flex: 1 }}>
+        <FilterModal
+          setModalState={
+            ((b) => this.setState({ filterModalOpen: b })).bind(this)
+          }
+          ref={ref => this.filterModal = ref} />
+        <FlatList
+          style={{ flex: 1, backgroundColor: 'white' }}
+          data={_categoryBooks}
+          keyExtractor={_keyExtractor}
+          renderItem={({ item }) => (
+            <BooksItem
+              navigate={this.navigate.bind(this)}
+              key={item.isbn}
+              category={this.category}
+              data={item} />)}
+          />
+      </View>
     );
   }
 };
