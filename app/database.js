@@ -24,6 +24,7 @@ async function addBookToList(data, list) {
     isbn,
     title,
     imageUrl,
+    author,
     totalPages
   } = data;
 
@@ -40,19 +41,30 @@ async function addBookToList(data, list) {
 
     let book = req.val();
 
+    let _image = tryOrDefault(imageUrl, "");
+    let _totalPages = tryOrDefault(totalPages, 0);
+    let currentPage = 0;
+    let progress = 0;
+
     if (book) {
       book.volumeId = volumeId;
       book.isbn = isbn;
       book.title = title;
-      book.image = tryOrDefault(imageUrl, "");
-      book.totalPages = tryOrDefault(totalPages, 0);
+      book.author = author;
+      book.image = _image;
+      book.totalPages = _totalPages;
+      book.currentPage = currentPage;
+      book.progress = progress;
     } else {
       book = {
-        volumeId: volumeId,
-        isbn: isbn,
-        title: title,
-        image: tryOrDefault(imageUrl, ""),
-        totalPages: tryOrDefault(totalPages, 0)
+        volumeId,
+        isbn,
+        title,
+        author,
+        image: _image,
+        totalPages: _totalPages,
+        currentPage: currentPage,
+        progress
       };
     }
 
@@ -60,6 +72,13 @@ async function addBookToList(data, list) {
   } catch (e) {
     console.error(e);
   }
+}
+
+function safeDiv(n, d) {
+  if (d === 0)
+    return 0;
+  else
+    return (n / d);
 }
 
 function tryOrDefault(item, def) {
