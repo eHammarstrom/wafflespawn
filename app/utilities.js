@@ -21,7 +21,22 @@ function subscribeToUserBooks(store) {
   });
 }
 
+function formatAuthors(authorsData) {
+  if (!authorsData)
+    return 'Unknown author';
+
+  if (authorsData.length > 2)
+    return authorsData[0] + ' et al.';
+  else
+    return authorsData.join(', ');
+}
+
+const book = {
+  formatAuthors
+}
+
 module.exports = {
   throwLoginIfNotAuthed,
-  subscribeToUserBooks
+  subscribeToUserBooks,
+  book
 };

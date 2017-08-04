@@ -1,4 +1,4 @@
-import { values, capitalize, lowerCase } from 'lodash';
+import { values, capitalize, lowerCase, sortBy, reverse } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -13,7 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderButtonRight from './../../components/HeaderButtonRight';
 import FilterModal from './Books/FilterModal';
-import * as utils from './../../../utilities';
+import * as utilities from './../../../utilities';
 import * as globalStyle from './../../../style';
 
 class Books extends Component {
@@ -24,7 +24,11 @@ class Books extends Component {
     props.navigation.setParams(
       { headerButtonRightOnClick: this.showFilterModal.bind(this) });
 
-    this.state =  { filterModalOpen: false };
+    this.state =  {
+      filterModalOpen: false,
+      filterProperty: 'Title',
+      filterOrder: 'Descending'
+    };
   }
 
   static navigationOptions = ({ navigation }) => ({
@@ -44,11 +48,44 @@ class Books extends Component {
       .navigate('Book', { book, category: this.category });
   }
 
+  filterBy(property, order, list) {
+    console.log('Books list', list);
+    switch (property) {
+      case 'Title':
+        list = sortBy(list, 'title');
+        break;
+      case 'Author':
+        let indexedAuthor = list.map((x, i) => {
+          let splitAuthor = x.author[0].split(' ');
+          let authorSurname = splitAuthor[splitAuthor.length - 1];
+
+          return {
+            index: i,
+            author: authorSurname
+          };
+        });
+
+        indexedAuthor = sortBy(indexedAuthor, 'author');
+
+        list = indexedAuthor.map(x => list[x.index]);
+        break;
+      case 'Progress':
+        list = sortBy(list, 'progress');
+        break;
+    }
+
+    if (order === 'Ascending')
+      list = reverse(list);
+
+    return list;
+  }
+
   render() {
     const { books } = this.props;
-    let _categoryBooks = values(books[this.category]);
+    const { filterProperty, filterOrder } = this.state;
 
-    console.log(_categoryBooks);
+    let _categoryBooks = values(books[this.category]);
+    _categoryBooks = this.filterBy(filterProperty, filterOrder, _categoryBooks);
 
     let _keyExtractor = (item, index) => item.isbn;
 
@@ -57,6 +94,12 @@ class Books extends Component {
         <FilterModal
           setModalState={
             ((b) => this.setState({ filterModalOpen: b })).bind(this)
+          }
+          setFilterState={
+            ((filterProperty, filterOrder) => this.setState({
+              filterProperty,
+              filterOrder
+            })).bind(this)
           }
           ref={ref => this.filterModal = ref} />
         <FlatList
@@ -77,13 +120,16 @@ class Books extends Component {
 
 class BooksItem extends Component {
   render() {
-    let _image = null;
-    let _progress = null;
-
     const {
       image,
-      totalPages
+      title,
+      author,
+      totalPages,
+      progress
     } = this.props.data;
+
+    let _image = null;
+    let _progress = progress.toString() + '%';
 
     if (image) {
       _image = (
@@ -91,13 +137,6 @@ class BooksItem extends Component {
           style={styles.thumbnail}
           source={{ uri: image }} />
       );
-    }
-
-    if (totalPages !== 0 && this.props.category !== 'finished') {
-      _progress = {
-        width: ((200 / totalPages) * 100)
-          .toString() + '%'
-      };
     }
 
     return (
@@ -111,7 +150,8 @@ class BooksItem extends Component {
             {_image}
           </View>
           <View>
-            <Text>{this.props.data.title}</Text>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.author}>{utilities.book.formatAuthors(author)}</Text>
           </View>
         </View>
       </TouchableHighlight>
@@ -143,6 +183,19 @@ const styles = StyleSheet.create({
     width: 50,
     borderRadius: 25
   },
+  title: {
+    margin: 2,
+    marginTop: 8,
+    paddingLeft: 2,
+    fontSize: 16,
+    color: globalStyle.palette.DefaultText
+  },
+  author: {
+    margin: 2,
+    paddingLeft: 2,
+    fontStyle: 'italic',
+    fontSize: 12
+  }
 });
 
 const mapStateToProps = (state, ownProps) => {

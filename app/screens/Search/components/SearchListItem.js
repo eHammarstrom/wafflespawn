@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import * as utilities from './../../../utilities';
 import * as globalStyle from './../../../style';
 
 class SearchListItem extends Component {
@@ -44,12 +45,7 @@ class SearchListItem extends Component {
     if (_authorsData) { // if authors exists, create author component
       _authors = (
         <Text style={styles.author}>
-          {
-            (_authorsData.length > 2) ?
-              _authorsData[0] + ' et al.'
-              :
-              _authorsData.join(', ')
-          }
+          { utilities.book.formatAuthors(_authorsData) }
         </Text>
       );
     }
@@ -108,6 +104,7 @@ class SearchListItem extends Component {
                 image: _imageData,
                 industryIdentifiers: item.volumeInfo.industryIdentifiers,
                 title: _titleData,
+                author: _authorsData,
                 pages: item.volumeInfo.pageCount,
                 volumeId: item.id
               })}

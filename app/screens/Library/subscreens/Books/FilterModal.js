@@ -33,10 +33,17 @@ class FilterModal extends Component {
       'Descending'
     ];
 
+    const { selectedProperty, selectedOrder } = this.state;
+
     return(
       <Modal
-        onClosed={() => this.props.setModalState(false)}
-        onOpened={() => this.props.setModalState(true)}
+        onClosed={() => {
+          this.props.setFilterState(selectedProperty, selectedOrder);
+          this.props.setModalState(false);
+        }}
+        onOpened={() => {
+          this.props.setModalState(true);
+        }}
         position={'top'}
         entry={'top'}
         ref={ref => this.modal = ref}

@@ -22,8 +22,6 @@ class LibraryPicker extends Component {
     let _industryId = data.industryIdentifiers;
     let _isbn;
     let _image = this.retrieveImageUrl(data.image);
-    let _title = data.title;
-    let _totalPages = data.pages;
 
     if (_industryId[0]) {
       _isbn = data.industryIdentifiers[0].identifier;
@@ -34,9 +32,10 @@ class LibraryPicker extends Component {
     database.addBookToList({
       volumeId: data.volumeId,
       isbn: _isbn,
-      title: _title,
+      title: data.title,
+      author: data.author,
       imageUrl: _image,
-      totalPages: _totalPages
+      totalPages: data.pages
     }, listType);
   }
 
