@@ -3640,6 +3640,10 @@ react-native-vector-icons@^4.1.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
+react-native-wheel-picker@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-wheel-picker/-/react-native-wheel-picker-1.1.1.tgz#03e8c6ba340a312f67e5ae7e456589e2b56f9a55"
+
 react-native@0.44.3:
   version "0.44.3"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.44.3.tgz#04550e1cdfc619a712f3f5969d68cd7c2dc4c073"

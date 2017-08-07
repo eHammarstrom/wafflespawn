@@ -6,18 +6,20 @@ import {
   StyleSheet
 } from 'react-native';
 import * as globalStyle from './../../../../style';
+import Picker from 'react-native-wheel-picker';
+const PickerItem = Picker.Item;
 
 class ProgressBar extends Component {
   render() {
     const {
-      showProgressModal,
+      showProgressPicker,
       currentPage,
       totalPages } = this.props;
     const progress = (currentPage / totalPages * 100).toString() + '%';
 
     return(
       <TouchableHighlight
-        onPress={showProgressModal}
+        onPress={showProgressPicker}
         style={styles.container}
       >
         <View>

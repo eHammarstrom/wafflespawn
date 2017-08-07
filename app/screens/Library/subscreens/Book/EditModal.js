@@ -7,10 +7,10 @@ import {
 import Modal from 'react-native-modalbox';
 import * as globalStyle from './../../../../style';
 
-class ProgressModal extends Component {
-  open() {
-    this.modal.open();
-  }
+const log = (msg) => console.log('EditModal:', msg);
+
+class EditModal extends Component {
+  open() { this.modal.open(); }
 
   render() {
     const { currentPage, totalPages } = this.props;
@@ -19,7 +19,7 @@ class ProgressModal extends Component {
       <Modal
         ref={ref => this.modal = ref}
         style={styles.window}
-        onOpened={() => console.log('openedModal')}
+        onOpened={() => log('opened')}
         coverScreen={true}
       >
         <Text>Hello world!</Text>
@@ -35,5 +35,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProgressModal;
+export default EditModal;
 

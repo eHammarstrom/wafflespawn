@@ -13,7 +13,8 @@ import HTMLView from 'react-native-htmlview';
 import * as utils from './../../../utilities';
 import * as globalStyle from './../../../style';
 import Loading from './../../../components/Loading';
-import ProgressModal from './Book/ProgressModal';
+import EditModal from './Book/EditModal';
+import ProgressPicker from './Book/ProgressPicker';
 import ProgressBar from './Book/ProgressBar';
 import HeaderButtonRight from './../../components/HeaderButtonRight';
 
@@ -29,7 +30,7 @@ class Book extends Component {
     this.state = { gBook: null };
 
     props.navigation.setParams(
-      { headerButtonRightOnClick: this.showProgressModal.bind(this) });
+      { headerButtonRightOnClick: this.showEditModal.bind(this) });
   }
 
   static navigationOptions = ({ navigation }) => ({
@@ -50,7 +51,8 @@ class Book extends Component {
       .catch(error => console.error(error)); // TODO: Handle error, maybe alert
   }
 
-  showProgressModal() { this.progressModal.open(); }
+  showEditModal() { this.editModal.open(); }
+  showProgressPicker() { this.progressPicker.open(); }
 
   render() {
     if (!this.state.gBook) return <Loading />;
@@ -80,14 +82,19 @@ class Book extends Component {
       <ScrollView style={{ flex: 1, backgroundColor: 'white', overflow: 'visible' }}>
         {_image}
         <ProgressBar
-          showProgressModal={this.showProgressModal.bind(this)}
-          category={this.category}
-          volumeId={this.volumeId}
+          showProgressPicker={this.showProgressPicker.bind(this)}
           totalPages={this.book.totalPages}
           currentPage={this.book.currentPage | 0} />
         <Text style={styles.authors}>{authors}</Text>
-        <ProgressModal
-          ref={ref => this.progressModal = ref}
+        <ProgressPicker
+          ref={ref => this.progressPicker = ref}
+          category={this.category}
+          volumeId={this.volumeId}
+          totalPages={this.book.totalPages}
+          currentPage={this.book.currentPage}
+        />
+        <EditModal
+          ref={ref => this.editModal = ref}
           totalPages={this.book.totalPages}
           currentPage={this.book.currentPage | 0} />
         <HTMLView
