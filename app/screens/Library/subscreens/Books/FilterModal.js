@@ -35,10 +35,14 @@ class FilterModal extends Component {
 
     const { selectedProperty, selectedOrder } = this.state;
 
+    const setFilterStateAndUpdateParent = (p) => {
+      this.setState(p);
+      this.props.setFilterState(selectedProperty, selectedOrder);
+    };
+
     return(
       <Modal
         onClosed={() => {
-          this.props.setFilterState(selectedProperty, selectedOrder);
           this.props.setModalState(false);
         }}
         onOpened={() => {
@@ -55,7 +59,9 @@ class FilterModal extends Component {
           backgroundColor={globalStyle.palette.PrimaryDefault}
           containerStyle={[styles.segmentControl, styles.segmentTopControl]}
           options={filterProperty}
-          onSelection={ ((o) => this.setState({ selectedProperty: o })).bind(this) }
+          onSelection={
+            ((o) => setFilterStateAndUpdateParent({ selectedProperty: o })).bind(this)
+          }
           selectedOption={ this.state.selectedProperty }
         />
 
@@ -65,7 +71,9 @@ class FilterModal extends Component {
           backgroundColor={globalStyle.palette.PrimaryDefault}
           containerStyle={[styles.segmentControl, styles.segmentBottomControl]}
           options={filterOrder}
-          onSelection={ ((o) => this.setState({ selectedOrder: o })).bind(this) }
+          onSelection={
+            ((o) => setFilterStateAndUpdateParent({ selectedOrder: o })).bind(this)
+          }
           selectedOption={ this.state.selectedOrder }
         />
       </Modal>
