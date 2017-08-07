@@ -1,3 +1,4 @@
+import { assign } from 'lodash';
 import * as firebase from 'firebase';
 
 function registerUser(idToken, accessToken) {
@@ -74,6 +75,34 @@ async function addBookToList(data, list) {
   }
 }
 
+/**
+ * edits book properties of fields given
+ * @param {* String of book category} category
+ * @param {* String of book volume id} volumeId
+ * @param {* Object of new field values} props
+ */
+async function editBookProperty(category, volumeId, props) {
+  const _userRef = 'users/' + firebase.auth().currentUser.uid;
+  const _bookRef = firebase.database()
+    .ref(_userRef + '/books')
+    .child(category)
+    .child(volumeId);
+
+  try {
+    let req = await _bookRef.once('value');
+
+    let book = req.val();
+
+    props.progress = safeDiv(props.currentPage, book.totalPages);
+
+    book = assign(book, props);
+
+    await _bookRef.update(book);
+  } catch(e) {
+    console.error(e);
+  }
+}
+
 function safeDiv(n, d) {
   if (d === 0)
     return 0;
@@ -98,5 +127,6 @@ let bookLists = {
 module.exports = {
   registerUser,
   addBookToList,
-  bookLists
+  bookLists,
+  editBookProperty
 };

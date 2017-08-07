@@ -129,7 +129,8 @@ class BooksItem extends Component {
     } = this.props.data;
 
     let _image = null;
-    let _progress = progress.toString() + '%';
+    let _progress = (Math.round(progress * 100)).toString() + '%';
+    _progress = { width: _progress };
 
     if (image) {
       _image = (

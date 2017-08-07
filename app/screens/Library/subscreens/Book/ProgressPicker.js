@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modalbox';
 import Picker from 'react-native-wheel-picker';
+import * as database from './../../../../database';
 import * as globalStyle from './../../../../style';
 const PickerItem = Picker.Item;
 
@@ -16,10 +17,10 @@ class ProgressPicker extends Component {
   constructor(props) {
     super(props);
 
-    this.itemList = range(1, this.props.totalPages);
+    this.itemList = range(1, this.props.totalPages + 1);
 
     this.state = {
-      selectedItem: this.props.currentPage
+      selectedItem: (this.props.currentPage - 1)
     };
   }
 
@@ -27,11 +28,16 @@ class ProgressPicker extends Component {
   close() { this.modal.close(); }
 
   setNewCurrentPage() {
+    const { category, volumeId } = this.props;
     let newCurrentPage = this.state.selectedItem + 1;
 
     log(`setting new currentPage=${newCurrentPage}`);
 
-    // do it
+    database.editBookProperty(
+      category,
+      volumeId,
+      { currentPage: newCurrentPage }
+    );
 
     this.close();
   }

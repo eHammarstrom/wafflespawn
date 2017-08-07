@@ -18,14 +18,14 @@ import ProgressPicker from './Book/ProgressPicker';
 import ProgressBar from './Book/ProgressBar';
 import HeaderButtonRight from './../../components/HeaderButtonRight';
 
+const log = (msg) => console.log('Book Screen:', msg);
+
 class Book extends Component {
   constructor(props) {
     super(props);
 
     this.volumeId = props.navigation.state.params.book.volumeId;
     this.category = props.navigation.state.params.category;
-
-    this.book = this.props.books[this.category][this.volumeId];
 
     this.state = { gBook: null };
 
@@ -41,11 +41,9 @@ class Book extends Component {
   componentWillMount() { this.retrieveBook(); }
 
   retrieveBook() {
-    const { volumeId } = this.book;
-
     const _baseUrl = 'https://www.googleapis.com/books/v1/volumes/';
 
-    fetch(_baseUrl + volumeId)
+    fetch(_baseUrl + this.volumeId)
       .then(res =>
         res.json().then(data => this.setState({ gBook: data })))
       .catch(error => console.error(error)); // TODO: Handle error, maybe alert
@@ -57,24 +55,20 @@ class Book extends Component {
   render() {
     if (!this.state.gBook) return <Loading />;
     const { books, navigation } = this.props;
-
-    console.log(navigation);
+    const book = this.props.books[this.category][this.volumeId];
 
     let _image = null;
-
-    let book = values(books[this.category])
-      .filter(x => x.isbn === this.book.isbn)[0]; // hopefully unique isbn 😜
 
     const {
       description,
       authors
     } = this.state.gBook.volumeInfo;
 
-    if (this.book.image) {
+    if (book.image) {
       _image = (
         <Image
           style={styles.thumbnail}
-          source={{ uri: this.book.image }} />
+          source={{ uri: book.image }} />
       );
     }
 
@@ -83,20 +77,20 @@ class Book extends Component {
         {_image}
         <ProgressBar
           showProgressPicker={this.showProgressPicker.bind(this)}
-          totalPages={this.book.totalPages}
-          currentPage={this.book.currentPage | 0} />
+          totalPages={book.totalPages}
+          currentPage={book.currentPage | 0} />
         <Text style={styles.authors}>{authors}</Text>
         <ProgressPicker
           ref={ref => this.progressPicker = ref}
           category={this.category}
           volumeId={this.volumeId}
-          totalPages={this.book.totalPages}
-          currentPage={this.book.currentPage}
+          totalPages={book.totalPages}
+          currentPage={book.currentPage}
         />
         <EditModal
           ref={ref => this.editModal = ref}
-          totalPages={this.book.totalPages}
-          currentPage={this.book.currentPage | 0} />
+          totalPages={book.totalPages}
+          currentPage={book.currentPage | 0} />
         <HTMLView
           value={description}
           style={styles.description}
