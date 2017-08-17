@@ -11,10 +11,10 @@ import {
   Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import HeaderButtonRight from './../../components/HeaderButtonRight';
+import HeaderButtonRight from '~/screens/components/HeaderButtonRight';
 import FilterModal from './Books/FilterModal';
-import * as utilities from './../../../utilities';
-import * as globalStyle from './../../../style';
+import * as utilities from '~/utilities';
+import * as globalStyle from '~/style';
 
 class Books extends Component {
   constructor(props) {

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { SegmentedControls } from 'react-native-radio-buttons'
 import Modal from 'react-native-modalbox';
-import * as globalStyle from './../../../../style';
+import * as globalStyle from '~/style';
 
 class FilterModal extends Component {
   constructor(props) {
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   },
   segmentControl: {
     marginLeft: 25,
-    marginRight: 25 
+    marginRight: 25
   },
   segmentTopControl: {
     marginTop: 20,

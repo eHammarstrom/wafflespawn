@@ -12,14 +12,14 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import HTMLView from 'react-native-htmlview';
-import * as utils from './../../../utilities';
-import * as globalStyle from './../../../style';
-import * as database from './../../../database';
-import Loading from './../../../components/Loading';
+import * as utils from '~/utilities';
+import * as globalStyle from '~/style';
+import * as database from '~/database';
+import Loading from '~/components/Loading';
 import EditModal from './Book/EditModal';
 import ProgressPicker from './Book/ProgressPicker';
 import ProgressBar from './Book/ProgressBar';
-import HeaderButtonRight from './../../components/HeaderButtonRight';
+import HeaderButtonRight from '~/screens/components/HeaderButtonRight';
 
 const log = (msg) => console.log('Book Screen:', msg);
 

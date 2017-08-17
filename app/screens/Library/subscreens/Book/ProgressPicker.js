@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modalbox';
 import Picker from 'react-native-wheel-picker';
-import * as database from './../../../../database';
-import * as globalStyle from './../../../../style';
+import * as database from '~/database';
+import * as globalStyle from '~/style';
 const PickerItem = Picker.Item;
 
 const log = (msg) => console.log('ProgressPicker:', msg);
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   picker: {
     width: 150,
     height: 180,
-    alignSelf: 'center' 
+    alignSelf: 'center'
   },
   btnContainer: {
     flexDirection: 'row',

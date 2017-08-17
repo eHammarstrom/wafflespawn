@@ -13,9 +13,9 @@ import SearchBar from 'react-native-searchbar';
 import SearchListItem from './components/SearchListItem';
 import LibraryPicker from './components/LibraryPicker';
 
-import * as nav from './../../navigation';
-import * as utils from './../../utilities';
-import * as globalStyle from './../../style';
+import * as nav from '~/navigation';
+import * as utils from '~/utilities';
+import * as globalStyle from '~/style';
 
 const styles = StyleSheet.create({
   headerSearchButton: {

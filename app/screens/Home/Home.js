@@ -6,9 +6,9 @@ import {
 } from 'react-native';
 import * as firebase from 'firebase';
 import Icon from 'react-native-vector-icons/Ionicons';
-import * as utils from './../../utilities';
-import * as globalStyle from './../../style';
-import * as actions from './../../actions';
+import * as utils from '~/utilities';
+import * as globalStyle from '~/style';
+import * as actions from '~/actions';
 
 class Home extends Component {
   constructor(props) {

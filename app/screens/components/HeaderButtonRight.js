@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import * as globalStyle from './../../style';
+import * as globalStyle from '~/style';
 
 /**
  * @param {*String name of icon retrieved from icon lib} iconName
@@ -17,6 +17,6 @@ const HeaderButtonRight = ({ navigation, iconName }) => (
     <Icon
       style={globalStyle.icons.headerIcons} name={iconName} />
   </TouchableHighlight>
-); 
+);
 
 export default HeaderButtonRight;

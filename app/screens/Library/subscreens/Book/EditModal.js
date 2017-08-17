@@ -5,7 +5,7 @@ import {
   StyleSheet
 } from 'react-native';
 import Modal from 'react-native-modalbox';
-import * as globalStyle from './../../../../style';
+import * as globalStyle from '~/style';
 
 const log = (msg) => console.log('EditModal:', msg);
 

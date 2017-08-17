@@ -9,13 +9,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import GoogleSignIn from 'react-native-google-sign-in';
 import * as firebase from 'firebase';
 
-import Loading from './../../components/Loading';
+import Loading from '~/components/Loading';
 
-import * as config from './../../config';
-import * as database from './../../database';
-import * as navigation from './../../navigation';
-
-const logo = require('../../images/logo.png');
+import * as config from '~/config';
+import * as database from '~/database';
+import * as navigation from '~/navigation';
+import logo from '~/images/logo.png';
 
 const STORAGE_USERDATA = 'user-data';
 

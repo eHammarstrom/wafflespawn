@@ -3,7 +3,7 @@ import { StackNavigator } from 'react-navigation';
 import hoist from 'hoist-non-react-statics';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import * as globalStyle from './../../style';
+import * as globalStyle from '~/style';
 
 import Categories from './subscreens/Categories';
 import Books from './subscreens/Books';
