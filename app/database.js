@@ -15,7 +15,18 @@ function registerUser(idToken, accessToken) {
     });
 }
 
+async function moveBookToCategory(currentCategory, destinationCategory, volumeId) {
+  const currentBookRef = getBookRef(currentCategory, volumeId);
+  const destinationBookRef = getBookRef(destinationCategory, volumeId);
 
+  try {
+    let book = (await currentBookRef.once('value')).val();
+    currentBookRef.remove();
+    await destinationBookRef.update(book);
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 async function addBookToList(data, category) {
   const {
@@ -27,12 +38,10 @@ async function addBookToList(data, category) {
     totalPages
   } = data;
 
-  const _bookRef = getBookRef(category, volumeId);
+  const bookRef = getBookRef(category, volumeId);
 
   try {
-    let req = await _bookRef.once('value');
-
-    let book = req.val();
+    let book = (await bookRef.once('value')).val();
 
     let _image = tryOrDefault(imageUrl, "");
     let _totalPages = tryOrDefault(totalPages, 0);
@@ -61,7 +70,7 @@ async function addBookToList(data, category) {
       };
     }
 
-    await _bookRef.update(book);
+    await bookRef.update(book);
   } catch (e) {
     console.error(e);
   }
@@ -74,10 +83,10 @@ async function addBookToList(data, category) {
  * @param {* Object of new field values} props
  */
 async function editBookProperty(category, volumeId, props) {
-  const _bookRef = getBookRef(category, volumeId);
+  const bookRef = getBookRef(category, volumeId);
 
   try {
-    let req = await _bookRef.once('value');
+    let req = await bookRef.once('value');
 
     let book = req.val();
 
@@ -86,13 +95,14 @@ async function editBookProperty(category, volumeId, props) {
 
       if (category === bookLists.currentlyReading) {
         statistics.addPageDiff(category, volumeId,
-          (props.currentPage - tryOrDefault(book.currentPage, 0)));
+          (props.currentPage - tryOrDefault(book.currentPage, 0)),
+          (props.progress === 1));
       }
     }
 
     book = assign(book, props);
 
-    await _bookRef.update(book);
+    await bookRef.update(book);
   } catch(e) {
     console.error(e);
   }
@@ -109,7 +119,8 @@ module.exports = {
   registerUser,
   addBookToList,
   bookLists,
-  editBookProperty
+  editBookProperty,
+  moveBookToCategory
 };
 
 // PRIVATE
@@ -118,7 +129,7 @@ const statistics = { // namespace statistics functions
   addPageDiff
 }
 
-async function addPageDiff(category, volumeId, diff) {
+async function addPageDiff(category, volumeId, diff, completed) {
   const time = Date.now();
   const readStatsRef = firebase.database()
     .ref(getUserRef() + '/stats')
@@ -129,7 +140,8 @@ async function addPageDiff(category, volumeId, diff) {
       date: time,
       category,
       volumeId,
-      diff
+      diff,
+      completed
     };
 
     await readStatsRef.update(entry);
