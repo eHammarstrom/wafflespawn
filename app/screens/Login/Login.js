@@ -116,9 +116,6 @@ async function googleAuth() {
 
   try {
     let user = await database.registerUser(gUser.idToken, gUser.accessToken);
-
-    this.props.navigation.dispatch(
-      navigation.initiateToMainApp());
   } catch (e) {
     console.error('googleAuthBtn: ' + e.toString());
     alert('Authentication failed,\nplease try again.');

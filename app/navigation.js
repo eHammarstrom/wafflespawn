@@ -3,12 +3,7 @@ import { NavigationActions } from 'react-navigation';
 module.exports = {
   initiateToMainApp: () => NavigationActions.reset({
     index: 0,
-    actions: [
-      NavigationActions.navigate({
-        routeName: 'MainApp',
-        action: NavigationActions.navigate({ routeName: 'Home' })
-      })
-    ]
+    actions: [ NavigationActions.navigate({ routeName: 'MainApp' }) ]
   }),
   resetToLogin: () => NavigationActions.reset({
     index: 0,
