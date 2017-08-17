@@ -1,13 +1,11 @@
 import { assign } from 'lodash';
 import * as firebase from 'firebase';
 
-function registerUser(idToken, accessToken) {
-  console.log('database: preparing credentials');
+// PUBLIC
 
+function registerUser(idToken, accessToken) {
   const credential =
     firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
-
-  console.log('database: authenticating credentials');
 
   return firebase.auth().signInWithCredential(credential)
     .then(val => val)
@@ -17,9 +15,9 @@ function registerUser(idToken, accessToken) {
     });
 }
 
-async function addBookToList(data, list) {
-  if (!firebase.auth().currentUser) return;
 
+
+async function addBookToList(data, category) {
   const {
     volumeId,
     isbn,
@@ -29,13 +27,7 @@ async function addBookToList(data, list) {
     totalPages
   } = data;
 
-  console.log('database.addBookToList, book - title:', isbn, '-', title);
-
-  const _userRef = 'users/' + firebase.auth().currentUser.uid;
-  const _bookRef = firebase.database()
-    .ref(_userRef + '/books')
-    .child(list)
-    .child(volumeId);
+  const _bookRef = getBookRef(category, volumeId);
 
   try {
     let req = await _bookRef.once('value');
@@ -82,18 +74,21 @@ async function addBookToList(data, list) {
  * @param {* Object of new field values} props
  */
 async function editBookProperty(category, volumeId, props) {
-  const _userRef = 'users/' + firebase.auth().currentUser.uid;
-  const _bookRef = firebase.database()
-    .ref(_userRef + '/books')
-    .child(category)
-    .child(volumeId);
+  const _bookRef = getBookRef(category, volumeId);
 
   try {
     let req = await _bookRef.once('value');
 
     let book = req.val();
 
-    props.progress = safeDiv(props.currentPage, book.totalPages);
+    if (props.currentPage) {
+      props.progress = safeDiv(props.currentPage, book.totalPages);
+
+      if (category === bookLists.currentlyReading) {
+        statistics.addPageDiff(category, volumeId,
+          (props.currentPage - tryOrDefault(book.currentPage, 0)));
+      }
+    }
 
     book = assign(book, props);
 
@@ -101,20 +96,6 @@ async function editBookProperty(category, volumeId, props) {
   } catch(e) {
     console.error(e);
   }
-}
-
-function safeDiv(n, d) {
-  if (d === 0)
-    return 0;
-  else
-    return (n / d);
-}
-
-function tryOrDefault(item, def) {
-  if (item)
-    return item;
-  else
-    return def;
 }
 
 let bookLists = {
@@ -130,3 +111,56 @@ module.exports = {
   bookLists,
   editBookProperty
 };
+
+// PRIVATE
+
+const statistics = { // namespace statistics functions
+  addPageDiff
+}
+
+async function addPageDiff(category, volumeId, diff) {
+  const time = Date.now();
+  const readStatsRef = firebase.database()
+    .ref(getUserRef() + '/stats')
+    .child(time);
+
+  try {
+    let entry = {
+      date: time,
+      category,
+      volumeId,
+      diff
+    };
+
+    await readStatsRef.update(entry);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function getUserRef() {
+  return 'users/' + firebase.auth().currentUser.uid
+}
+
+function getBookRef(category, volumeId) {
+  const bookRef = firebase.database()
+    .ref(getUserRef() + '/books')
+    .child(category)
+    .child(volumeId);
+
+  return bookRef;
+}
+
+function safeDiv(n, d) {
+  if (d === 0)
+    return 0;
+  else
+    return (n / d);
+}
+
+function tryOrDefault(item, def) {
+  if (item)
+    return item;
+  else
+    return def;
+}
