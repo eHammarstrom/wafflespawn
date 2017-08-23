@@ -70,8 +70,9 @@ class Login extends Component {
             <View style={styles.viewPadding} />
 
             <Icon.Button style={styles.btnLogin}
-              name='facebook' backgroundColor='#3a5899' onPress={facebookAuth}>
-              <Text style={styles.btnText}>Sign in with Facebook</Text>
+              name='facebook' backgroundColor='#777' color='#999' onPress={facebookAuth}>
+              {/* name='facebook' backgroundColor='#3a5899' onPress={facebookAuth}> */}
+              <Text style={[styles.btnText, { color: '#999' }]}>Sign in with Facebook</Text>
             </Icon.Button>
 
           </View>
