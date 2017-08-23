@@ -5,14 +5,22 @@ import {
   Text,
   View
 } from 'react-native';
-import { omit } from 'lodash';
+import { pick } from 'lodash';
 import * as globalStyle from '~/style';
 
 const LabeledTextInput = (props) => {
-  props = omit(props, ['style']); // deny propagation of style, use {viewStyle, labelStyle or inputStyle} instead
+  props = pick(props, [
+    'onChangeText',
+    'value',
+    'keyboardType',
+    'label',
+    'labelStyle',
+    'viewStyle',
+    'inputStyle'
+  ]); // Some propagated props are triggering a re-render... TODO: Remember
 
   return (
-    <View style={[{ height: (props.height | 60), marginBottom: 10}, props.viewStyle]}>
+    <View style={[{ height: 60, marginBottom: 10}, props.viewStyle]}>
       <Text style={[styles.fieldLabel, props.labelStyle]}>{props.label}</Text>
       <TextInput
         {...props}
