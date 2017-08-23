@@ -59,8 +59,7 @@ class Login extends Component {
 
           <View style={{
             flex: 3, flexDirection: 'column',
-            justifyContent: 'center', alignItems: 'center'
-          }}>
+            justifyContent: 'center', alignItems: 'center'}}>
 
             <Icon.Button style={styles.btnLogin}
               name='google' backgroundColor='#dd4a48' onPress={googleAuth.bind(this)} color='white'>
@@ -71,7 +70,6 @@ class Login extends Component {
 
             <Icon.Button style={styles.btnLogin}
               name='facebook' backgroundColor='#777' color='#999' onPress={facebookAuth}>
-              {/* name='facebook' backgroundColor='#3a5899' onPress={facebookAuth}> */}
               <Text style={[styles.btnText, { color: '#999' }]}>Sign in with Facebook</Text>
             </Icon.Button>
 
@@ -110,17 +108,16 @@ const styles = StyleSheet.create({
 });
 
 async function googleAuth() {
-  await GoogleSignIn.configure(config.GoogleAuth);
-
-  // https://firebase.google.com/docs/auth/web/google-signin
-  const gUser = await GoogleSignIn.signInPromise();
-
   try {
+    await GoogleSignIn.configure(config.GoogleAuth);
+
+    // https://firebase.google.com/docs/auth/web/google-signin
+    const gUser = await GoogleSignIn.signInPromise();
+
     let user = await database.registerUser(gUser.idToken, gUser.accessToken);
   } catch (e) {
-    console.error('googleAuthBtn: ' + e.toString());
+    console.error('Login', e);
     alert('Authentication failed,\nplease try again.');
-    throw e;
   }
 }
 
