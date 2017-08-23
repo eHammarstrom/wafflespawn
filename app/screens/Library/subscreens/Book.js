@@ -54,15 +54,19 @@ class Book extends Component {
   showEditModal() { this.editModal.open(); }
   showProgressPicker() { this.progressPicker.open(); }
 
-  moveBookAndRotueBack() {
+  routeBackAndReset(category, extraNavigations) {
     this.props.navigation.dispatch(NavigationActions.reset({ // This removes the moved book from the navigation stack
       index: 1,
       actions: [
         NavigationActions.navigate({ routeName: 'Categories' }),
-        NavigationActions.navigate({ routeName: 'Books', params: { category: this.category } })
+        NavigationActions.navigate({ routeName: 'Books', params: { category } }),
+        ...extraNavigations
       ]
     }));
+  }
 
+  moveBookAndRotueBack() {
+    this.routeBackAndReset(this.category, []);
     database.moveBookToCategory(this.category, database.bookLists.completed, this.volumeId);
   }
 
@@ -106,6 +110,7 @@ class Book extends Component {
         />
         <EditModal
           refCallback={ref => this.editModal = ref}
+          routeBackAndReset={this.routeBackAndReset.bind(this)}
           store={this.props.store}
           category={this.category}
           volumeId={this.volumeId} />

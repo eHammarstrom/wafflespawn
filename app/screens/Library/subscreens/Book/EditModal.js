@@ -21,8 +21,9 @@ class EditModal extends Component {
     const book = this.retrieveBook();
 
     this.state = {
+      correctFields: true,
       showButtons: true,
-      pickerCategory: this.category,
+      pickerCategory: props.category,
       txtTitle: book.title,
       txtAuthors: book.author,
       numCurrentPage: book.currentPage.toString(),
@@ -37,7 +38,7 @@ class EditModal extends Component {
   }
 
   componentDidMount() {
-    this.props.refCallback(this.modal); // Redux connect messes with regular references
+    this.props.refCallback(this); // Redux connect messes with regular references
   }
 
   componentWillMount() {
@@ -52,12 +53,52 @@ class EditModal extends Component {
     this.keyboardDidHideListener.remove();
   }
 
-  open() { this.modal.open() }
+  open() {
+    const book = this.retrieveBook();
+
+    this.setState({ // Refresh the state on modal open
+      correctFields: true,
+      showButtons: true,
+      pickerCategory: this.props.category,
+      txtTitle: book.title,
+      txtAuthors: book.author,
+      numCurrentPage: book.currentPage.toString(),
+      numTotalPages: book.totalPages.toString()
+    });
+
+    this.modal.open();
+  }
+
   close() { this.modal.close() }
 
-  acceptChanges() {
+  async acceptChanges() {
+    const { category, volumeId, routeBackAndReset } = this.props;
+    const { txtTitle, txtAuthors, numCurrentPage,
+      numTotalPages, pickerCategory, correctFields } = this.state;
+
+    if (!correctFields) {
+      // Alert user of incorrect entries
+
+      return;
+    }
+
     // 1. Apply book changes
     // 2. If category was changed, move book to category
+
+    // 1. database.editBookProperty(category, volumeId, props);
+    await database.editBookProperty(category, volumeId, {
+      title: txtTitle,
+      author: txtAuthors,
+      currentPage: numCurrentPage,
+      totalPages: numTotalPages
+    });
+
+    // 2. database.moveBookToCategory(currentCategory, destinationCategory, volumeId);
+    // Could also route back to the book but in the new category TODO: Decide where to route
+    if (category !== pickerCategory) {
+      routeBackAndReset(category, []);
+      database.moveBookToCategory(category, pickerCategory, volumeId);
+    }
 
     this.close();
   }
@@ -95,7 +136,6 @@ class EditModal extends Component {
                   authors[index] = t;
                   this.setState({ txtAuthors: authors });
                 }}
-                key={value}
                 value={value} />
             })
           }
