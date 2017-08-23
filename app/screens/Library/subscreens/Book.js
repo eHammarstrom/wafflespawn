@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import HTMLView from 'react-native-htmlview';
-import * as utils from '~/utilities';
 import * as globalStyle from '~/style';
 import * as database from '~/database';
 import Loading from '~/components/Loading';

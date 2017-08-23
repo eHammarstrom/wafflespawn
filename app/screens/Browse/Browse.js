@@ -4,14 +4,11 @@ import {
   StyleSheet
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import * as utils from '~/utilities';
 import * as globalStyle from '~/style';
 
 class Browse extends Component {
   constructor(props) {
     super(props);
-    utils.throwLoginIfNotAuthed(this.props.navigation);
-
     this.state = {};
   }
 

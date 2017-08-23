@@ -14,7 +14,6 @@ import SearchListItem from './components/SearchListItem';
 import LibraryPicker from './components/LibraryPicker';
 
 import * as nav from '~/navigation';
-import * as utils from '~/utilities';
 import * as globalStyle from '~/style';
 
 const styles = StyleSheet.create({
@@ -41,8 +40,6 @@ const styles = StyleSheet.create({
 class Search extends Component {
   constructor(props) {
     super(props);
-    utils.throwLoginIfNotAuthed(this.props.navigation);
-
     this.state = {
       bookSearchList: [],
       showPicker: false,
