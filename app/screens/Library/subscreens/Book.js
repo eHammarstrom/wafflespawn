@@ -19,7 +19,7 @@ import Loading from '~/components/Loading';
 import EditModal from './Book/EditModal';
 import ProgressPicker from './Book/ProgressPicker';
 import ProgressBar from './Book/ProgressBar';
-import HeaderButtonRight from '~/screens/components/HeaderButtonRight';
+import HeaderButtonRight from '~/components/HeaderButtonRight';
 
 const log = (msg) => console.log('Book Screen:', msg);
 
