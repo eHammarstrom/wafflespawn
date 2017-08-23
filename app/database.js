@@ -11,7 +11,6 @@ function registerUser(idToken, accessToken) {
     .then(val => val)
     .catch(e => {
       console.error('database: ' + e);
-      throw e;
     });
 }
 
