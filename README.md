@@ -5,7 +5,9 @@
 1. `git clone https://github.com/eHammarstrom/wafflespawn`
 2. `cd wafflespawn && yarn install` note: `npm install` may not reproduce environment currently
 3. `react-native start` or `yarn start`
+    1. Head to `http://localhost:8081/debugger-ui`.
 4. `react-native run-android` or `react-native run-ios`
+    1. Enable `Remote JS debugging` in debug app to utilize the browser for debugging (step 3.1).
 
 ### App structure
 ...
