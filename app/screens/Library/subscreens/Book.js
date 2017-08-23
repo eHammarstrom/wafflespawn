@@ -105,9 +105,10 @@ class Book extends Component {
           currentPage={book.currentPage}
         />
         <EditModal
-          ref={ref => this.editModal = ref}
-          totalPages={book.totalPages}
-          currentPage={book.currentPage | 0} />
+          refCallback={ref => this.editModal = ref}
+          store={this.props.store}
+          category={this.category}
+          volumeId={this.volumeId} />
         <HTMLView
           value={description}
           style={styles.description}
