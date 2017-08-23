@@ -16,7 +16,8 @@ const LabeledTextInput = (props) => {
     'label',
     'labelStyle',
     'viewStyle',
-    'inputStyle'
+    'inputStyle',
+    'key'
   ]); // Some propagated props are triggering a re-render... TODO: Remember
 
   return (
