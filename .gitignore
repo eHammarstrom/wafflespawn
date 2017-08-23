@@ -52,6 +52,5 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 
-# Release key
+# Release keystore
 android/app/waffle-release-key.keystore
-android/app/google-services.json

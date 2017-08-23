@@ -1,0 +1,70 @@
+{
+  "project_info": {
+    "project_number": "432153624336",
+    "firebase_url": "https://wafflespawn-deead.firebaseio.com",
+    "project_id": "wafflespawn-deead",
+    "storage_bucket": "wafflespawn-deead.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432153624336:android:f6f1b3a8c4301996",
+        "android_client_info": {
+          "package_name": "com.wafflespawn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "432153624336-5t2p64qg2r3n70m5jkhlgnof7335cj25.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wafflespawn",
+            "certificate_hash": "8d84781d93d145bd691e0db84435cdc9846d2f99"
+          }
+        },
+        {
+          "client_id": "432153624336-pstqm0tsiesbrai6mvgneeotgpjaiinm.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "432153624336-sv3rahgkk580n8rcob4hq8sfr3gaf86u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wafflespawn",
+            "certificate_hash": "7d7a6127788e436946c0ef5a82170ebd167ad73f"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwlK42iMRFSdQHMNBb-44qAC2ok2jFMl4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "432153624336-hbr79fd9au1rp8v73k7kan2dcvh6vpdc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wafflespawn"
+              }
+            },
+            {
+              "client_id": "432153624336-pstqm0tsiesbrai6mvgneeotgpjaiinm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
