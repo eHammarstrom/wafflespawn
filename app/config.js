@@ -1,5 +1,5 @@
 const GoogleAuth = {
-  clientID: 'yourClientID', // iOS
+  clientID: '432153624336-hbr79fd9au1rp8v73k7kan2dcvh6vpdc.apps.googleusercontent.com', // iOS
   scopes: [
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile'
@@ -11,7 +11,9 @@ const GoogleAuth = {
   // https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd
   loginHint: 'wafflespawn application',
   // https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#ae214ed831bb93a06d8d9c3692d5b35f9
-  serverClientID: '432153624336-bo2b7cm9nj9cq41d38qmetq76dc3glfi.apps.googleusercontent.com',
+  /* IMPORTANT: serverClientID should contain the WEB APPLICATION OAUTH2 ID */
+  // keyExpired error implies wrong firebase config api-key in app/index.js (...)
+  serverClientID: '432153624336-pstqm0tsiesbrai6mvgneeotgpjaiinm.apps.googleusercontent.com',
   // Don't use Android OAuth-ID!
   // http://stackoverflow.com/questions/33583326/new-google-sign-in-android
   // And this

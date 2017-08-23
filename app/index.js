@@ -18,7 +18,7 @@ import LibraryNavigator from './screens/Library/LibraryNavigator';
 import * as globalStyle from './style';
 
 const config = {
-  apiKey: "AIzaSyCUguMgijYKBQsdg842ojuk1OLXGe2wTkI",
+  apiKey: "AIzaSyBv8XGidy07LTKFqDsxDWXBd7us9tAGufA",
   authDomain: "wafflespawn-deead.firebaseapp.com",
   databaseURL: "https://wafflespawn-deead.firebaseio.com",
   projectId: "wafflespawn-deead",
