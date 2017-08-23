@@ -107,10 +107,10 @@ android {
     // https://developer.android.com/studio/publish/app-signing.html#gradle-sign
     signingConfigs {
       release {
-        storeFile file("waffle.jks")
-        storePassword "lolWafflesAreCoolAndHardcore"
-        keyAlias "waffleStore"
-        keyPassword "lolWafflesAreCoolAndHardcore"
+        storeFile file(WAFFLE_RELEASE_STORE_FILE)
+        storePassword WAFFLE_RELEASE_STORE_PASSWORD
+        keyAlias WAFFLE_RELEASE_KEY_ALIAS
+        keyPassword WAFFLE_RELEASE_KEY_PASSWORD
       }
     }
     buildTypes {

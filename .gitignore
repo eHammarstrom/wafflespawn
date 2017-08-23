@@ -51,3 +51,7 @@ buck-out/
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
+
+# Release key
+android/app/waffle-release-key.keystore
+android/app/google-services.json
