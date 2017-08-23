@@ -35,8 +35,7 @@ const styles = StyleSheet.create({
   },
   fieldInput: {
     fontSize: 18,
-    color: globalStyle.palette.DefaultText,
-    flex: 1
+    color: globalStyle.palette.DefaultText
   }
 });
 
