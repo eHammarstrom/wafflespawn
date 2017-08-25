@@ -76,6 +76,21 @@ async function addBookToList(category, volumeId, data) {
 }
 
 /**
+ * Removes book given category and volumeId
+ * @param {String use: database.bookLists} category
+ * @param {String} volumeId
+ */
+async function removeBook(category, volumeId) {
+  const bookRef = getBookRef(category, volumeId);
+
+  try {
+    await bookRef.remove();
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+/**
  * Modifies book properties with given properties
  * @param {String of book category} category
  * @param {String of book volume id} volumeId
@@ -119,7 +134,8 @@ module.exports = {
   addBookToList,
   bookLists,
   editBookProperty,
-  moveBookToCategory
+  moveBookToCategory,
+  removeBook
 };
 
 // PRIVATE
