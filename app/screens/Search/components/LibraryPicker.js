@@ -38,6 +38,8 @@ class LibraryPicker extends Component {
         author: data.author,
         imageUrl: _image,
         totalPages: data.pages });
+
+    this.picker.close();
   }
 
   /**
