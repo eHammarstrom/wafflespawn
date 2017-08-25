@@ -29,7 +29,10 @@ class Book extends Component {
     this.volumeId = props.navigation.state.params.book.volumeId;
     this.category = props.navigation.state.params.category;
 
-    this.state = { gBook: null };
+    this.state = {
+      movingBook: false,
+      gBook: null
+    };
 
     props.navigation.setParams(
       { headerButtonRightOnClick: this.showEditModal.bind(this) });
@@ -54,6 +57,8 @@ class Book extends Component {
   showEditModal() { this.editModal.open(); }
   showProgressPicker() { this.progressPicker.open(); }
 
+  movingBook() { this.setState({ movingBook: true }); }
+
   routeBackAndReset(category, extraNavigations) {
     this.props.navigation.dispatch(NavigationActions.reset({ // This removes the moved book from the navigation stack
       index: 1,
@@ -66,17 +71,15 @@ class Book extends Component {
   }
 
   moveBookAndRotueBack() {
+    this.movingBook();
     this.routeBackAndReset(this.category, []);
     database.moveBookToCategory(this.category, database.bookLists.completed, this.volumeId);
   }
 
   render() {
-    if (!this.state.gBook) return <Loading />;
+    if (!this.state.gBook || this.state.movingBook) return <Loading />;
     const { books, navigation } = this.props;
-    let book;
-
-    try { book = this.props.books[this.category][this.volumeId];  // When moving books between categories render()
-    } catch (e) { return null; }                                  // will be called even though we're navigating.
+    const book = this.props.books[this.category][this.volumeId];
 
     let _image = null;
 
@@ -110,6 +113,7 @@ class Book extends Component {
         />
         <EditModal
           refCallback={ref => this.editModal = ref}
+          movingBook={this.movingBook.bind(this)}
           routeBackAndReset={this.routeBackAndReset.bind(this)}
           store={this.props.store}
           category={this.category}

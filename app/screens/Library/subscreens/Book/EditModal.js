@@ -72,7 +72,7 @@ class EditModal extends Component {
   close() { this.modal.close() }
 
   async acceptChanges() {
-    const { category, volumeId, routeBackAndReset } = this.props;
+    const { category, volumeId, routeBackAndReset, movingBook } = this.props;
     const { txtTitle, txtAuthors, numCurrentPage,
       numTotalPages, pickerCategory, correctFields } = this.state;
 
@@ -96,6 +96,7 @@ class EditModal extends Component {
     // 2. database.moveBookToCategory(currentCategory, destinationCategory, volumeId);
     // Could also route back to the book but in the new category TODO: Decide where to route
     if (category !== pickerCategory) {
+      movingBook();
       routeBackAndReset(category, []);
       database.moveBookToCategory(category, pickerCategory, volumeId);
     }
