@@ -20,6 +20,9 @@ async function moveBookToCategory(currentCategory, destinationCategory, volumeId
 
   try {
     let book = (await currentBookRef.once('value')).val();
+
+    book = setCategoryDefaults(destinationCategory, book);
+
     currentBookRef.remove();
     await destinationBookRef.update(book);
   } catch (e) {
@@ -27,47 +30,20 @@ async function moveBookToCategory(currentCategory, destinationCategory, volumeId
   }
 }
 
-async function addBookToList(data, category) {
-  const {
-    volumeId,
-    isbn,
-    title,
-    imageUrl,
-    author,
-    totalPages
-  } = data;
-
+async function addBookToList(category, volumeId, data) {
   const bookRef = getBookRef(category, volumeId);
 
   try {
     let book = (await bookRef.once('value')).val();
 
-    let _image = tryOrDefault(imageUrl, "");
-    let _totalPages = tryOrDefault(totalPages, 0);
-    let currentPage = 0;
-    let progress = 0;
+    data.image = tryOrDefault(data.imageUrl, "");
+    data.totalPages = tryOrDefault(data.totalPages, 0);
+    data.currentPage = 0;
+    data.progress = 0;
 
-    if (book) {
-      book.volumeId = volumeId;
-      book.isbn = isbn;
-      book.title = title;
-      book.author = author;
-      book.image = _image;
-      book.totalPages = _totalPages;
-      book.currentPage = currentPage;
-      book.progress = progress;
-    } else {
-      book = {
-        volumeId,
-        isbn,
-        title,
-        author,
-        image: _image,
-        totalPages: _totalPages,
-        currentPage: currentPage,
-        progress
-      };
-    }
+    book = assign(data, book);
+
+    book = setCategoryDefaults(category, book);
 
     await bookRef.update(book);
   } catch (e) {
@@ -126,6 +102,24 @@ module.exports = {
 
 const statistics = { // namespace statistics functions
   addPageDiff
+}
+
+/*
+ * Prepare book for category transfer/entry
+ */
+function setCategoryDefaults(category, book) {
+  switch (category) {
+    case bookLists.completed:
+      book.progress = 1;
+      book.currentPage = book.totalPages;
+      break;
+    case bookLists.planToRead:
+      book.progress = 0;
+      book.currentPage = 0;
+      break;
+  }
+
+  return book;
 }
 
 async function addPageDiff(category, volumeId, diff, completed) {

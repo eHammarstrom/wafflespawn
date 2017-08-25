@@ -29,14 +29,15 @@ class LibraryPicker extends Component {
       throw Error('No isbn found on book.');
     }
 
-    database.addBookToList({
-      volumeId: data.volumeId,
-      isbn: _isbn,
-      title: data.title,
-      author: data.author,
-      imageUrl: _image,
-      totalPages: data.pages
-    }, listType);
+    database.addBookToList(
+      listType,
+      data.volumeId,
+      { volumeId: data.volumeId,
+        isbn: _isbn,
+        title: data.title,
+        author: data.author,
+        imageUrl: _image,
+        totalPages: data.pages });
   }
 
   /**
