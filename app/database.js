@@ -3,6 +3,11 @@ import * as firebase from 'firebase';
 
 // PUBLIC
 
+/**
+ * Adds or authenticates user to firebase DB
+ * @param {String} idToken
+ * @param {String} accessToken
+ */
 function registerUser(idToken, accessToken) {
   const credential =
     firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
@@ -14,6 +19,12 @@ function registerUser(idToken, accessToken) {
     });
 }
 
+/**
+ * Moves book to a new category, and sets the book defaults of that category
+ * @param {String use: database.bookLists} currentCategory
+ * @param {String use: database.bookLists} destinationCategory
+ * @param {String} volumeId
+ */
 async function moveBookToCategory(currentCategory, destinationCategory, volumeId) {
   const currentBookRef = getBookRef(currentCategory, volumeId);
   const destinationBookRef = getBookRef(destinationCategory, volumeId);
@@ -30,6 +41,19 @@ async function moveBookToCategory(currentCategory, destinationCategory, volumeId
   }
 }
 
+/**
+ * Adds given book object to the given category and volumeId
+ * @param {String use: database.bookLists} category
+ * @param {String} volumeId
+ * @param {Object {
+ *  author: [String]
+ *  title: String
+ *  volumeId: String
+ *  imageUrl: String
+ *  isbn: String (Optional?)
+ *  totalPages: Int
+ * }} data
+ */
 async function addBookToList(category, volumeId, data) {
   const bookRef = getBookRef(category, volumeId);
 
@@ -52,10 +76,10 @@ async function addBookToList(category, volumeId, data) {
 }
 
 /**
- * edits book properties of fields given
- * @param {* String of book category} category
- * @param {* String of book volume id} volumeId
- * @param {* Object of new field values} props
+ * Modifies book properties with given properties
+ * @param {String of book category} category
+ * @param {String of book volume id} volumeId
+ * @param {Object of new field values} props
  */
 async function editBookProperty(category, volumeId, props) {
   const bookRef = getBookRef(category, volumeId);
@@ -104,8 +128,11 @@ const statistics = { // namespace statistics functions
   addPageDiff
 }
 
-/*
+/**
  * Prepare book for category transfer/entry
+ * param {String use: database.bookLists} category
+ * param {Object} book
+ * return {Object} book'
  */
 function setCategoryDefaults(category, book) {
   switch (category) {
