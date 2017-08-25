@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Button,
   Picker,
-  Keyboard
+  Keyboard,
+  Alert
 } from 'react-native';
 import { map } from 'lodash';
 import Modal from 'react-native-modalbox';
@@ -104,6 +105,27 @@ class EditModal extends Component {
     this.close();
   }
 
+  removeBookAlert() {
+    const { movingBook, routeBackAndReset, category, volumeId } = this.props;
+
+    Alert.alert(
+      '',
+      'Are you sure you want to remove the book from this list?',
+      [
+        {text: 'No',
+          onPress: null,
+          style: 'cancel'},
+        {text: 'Yes',
+          onPress: () => {
+            movingBook(); // We're kind of moving it :)
+            routeBackAndReset(category, []);
+            database.removeBook(category, volumeId);
+          }
+        }
+      ],
+      { cancelable: false });
+  }
+
   render() {
     const book = this.retrieveBook();
 
@@ -162,6 +184,10 @@ class EditModal extends Component {
                 title='Close'
                 color={globalStyle.palette.PrimaryDefault}
                 onPress={this.close.bind(this)} />
+              <Button
+                title='Remove'
+                color={globalStyle.palette.Accent}
+                onPress={this.removeBookAlert.bind(this)} />
               <Button
                 title='Accept'
                 color={globalStyle.palette.PrimaryDefault}
