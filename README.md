@@ -1,4 +1,12 @@
-# wafflespawn - Make books great(er) again
+#wafflespawn - Make books great(er) again
+
+### Sneak peek of current state
+
+|     |     |     |
+|:---:|:---:|:---:|
+|![login](./readme_images/login.png)|![search_clean](./readme_images/search_clean.png)|![search_typing](./readme_images/search_typing.png)|
+|![search_adding](./readme_images/search_adding.png)|![library_categories](./readme_images/library_categories.png)|![books_list](./readme_images/books_list.png)|
+|![books_filter](./readme_images/books_filter.png)|![book_info](./readme_images/book_info.png)|![book_edit](./readme_images/book_edit.png)|
 
 ### How to run
 
